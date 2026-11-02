@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+import Calculator from '../components/Calculator.astro';
+import Layers from '../components/Layers.astro';
+import Faq from '../components/Faq.astro';
+import Reviews from '../components/Reviews.astro';
+import { MODELS, fmt, minPrice } from '../data/site';
+import { faqSchema, itemListSchema } from '../lib/schema';
+const faq = [
+  { q: 'Чем ортопедический матрас отличается от обычного?', a: 'Ортопедический матрас поддерживает позвоночник в естественном положении: не прогибается под тяжёлыми частями тела и не давит на плечи. За это отвечают пружинный блок или жёсткие слои вроде кокосовой койры.' },
+  { q: 'Какой ортопедический матрас лучше для спины?', a: 'Чаще всего — средне-жёсткий или жёсткий, с кокосовой койрой. У нас это Престиж Кокос. Но окончательный выбор зависит от веса и позы сна, поэтому лучше полежать в шоуруме.' },
+  { q: 'Сколько служит ортопедический матрас?', a: 'При правильном уходе — 8–10 лет и дольше. Переворачивайте двусторонний матрас каждые 3 месяца и используйте наматрасник.' },
+];
+---
+<Base
+  title={`Ортопедические матрасы в Алматы и Астане — купить от ${fmt(minPrice())} | Softmatras`}
+  description="Ортопедические матрасы от фабрики Softmatras: жёсткие с кокосовой койрой, мягкие с memory, двусторонние. Все размеры и на заказ. Шоурумы в Алматы и Астане, доставка бесплатно."
+  keywords="матрасы ортопедические Астана, матрасы Алматы ортопедические, ортопедический матрас купить, матрас для спины"
+  crumbs={[{ name: 'Главная', href: '/' }, { name: 'Ортопедические матрасы', href: '/ortopedicheskie-matrasy/' }]}
+  schema={[faqSchema(faq), itemListSchema()]}
+>
+  <section class="page-hero wrap">
+    <h1 class="page-h">Ортопедические матрасы</h1>
+    <p class="page-lead">Все наши матрасы — ортопедические. Разница в жёсткости, наполнении и цене: от {fmt(minPrice())} за эконом-модель до флагмана {MODELS[5].name}.</p>
+    <div class="page-cta"><a class="btn" href="/almaty/">Ортопедические матрасы в Алматы</a><a class="btn btn--ghost" href="/astana/">в Астане</a></div>
+  </section>
+  <section class="sec sec--tight"><div class="wrap"><Calculator id="calc-o" /></div></section>
+  <section class="sec"><div class="wrap"><header class="sec-head"><h2 class="sec-title">Как устроен матрас</h2></header><Layers /></div></section>
+  <section class="sec sec--tight"><div class="wrap"><h2 class="h2">Отзывы</h2><Reviews limit={6} /></div></section>
+  <section class="sec sec--tight"><div class="wrap"><h2 class="h2">Вопросы</h2><Faq items={faq} /></div></section>
+</Base>

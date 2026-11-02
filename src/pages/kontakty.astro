@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import Contacts from '../components/Contacts.astro';
+import { SITE } from '../data/site';
+import { storeSchema } from '../lib/schema';
+---
+<Base
+  title="Контакты Softmatras — шоурумы матрасов в Алматы и Астане"
+  description={`Шоурумы Softmatras: Алматы, пр. Гагарина, 244А; Астана, ул. Достык, 3 (ежедневно 10:00–20:00). Телефон и WhatsApp: ${SITE.phoneHuman}.`}
+  crumbs={[{ name: 'Главная', href: '/' }, { name: 'Контакты', href: '/kontakty/' }]}
+  schema={[storeSchema('almaty'), storeSchema('astana')]}
+>
+  <section class="page-hero wrap">
+    <h1 class="page-h">Контакты</h1>
+    <p class="page-lead">Телефон и WhatsApp: <a class="link" href={`tel:${SITE.phone}`}>{SITE.phoneHuman}</a>. Instagram: <a class="link" href={SITE.instagram} target="_blank" rel="noopener">@softmatras</a>.</p>
+  </section>
+  <section class="sec sec--tight"><div class="wrap"><Contacts /></div></section>
+  <section class="sec sec--tight"><div class="wrap prose"><h2>Реквизиты</h2><p>{SITE.legalName}</p></div></section>
+</Base>

@@ -1,0 +1,31 @@
+---
+import Base from '../layouts/Base.astro';
+import Contacts from '../components/Contacts.astro';
+import Faq from '../components/Faq.astro';
+import { CITIES } from '../data/site';
+import { faqSchema } from '../lib/schema';
+const items = [
+  { t: 'По Алматы и Астане', d: 'Бесплатно. Матрасы из наличия — в день заказа, в удобное для вас время.' },
+  { t: 'Подъём на этаж', d: 'Занесём в квартиру, даже если нет лифта. Покупатели это часто отмечают в отзывах.' },
+  { t: 'Вывоз старого матраса', d: 'Бесплатно заберём и утилизируем старый матрас в день доставки.' },
+  { t: 'Другие города', d: 'Отправляем по Казахстану на следующий день после заказа. Стоимость и срок — по запросу.' },
+];
+const faq = [
+  { q: 'Как оплатить заказ?', a: 'Варианты оплаты и рассрочки уточняйте у консультанта при оформлении заказа в WhatsApp или по телефону.' },
+  { q: 'Можно ли вернуть или обменять матрас?', a: 'Условия обмена и возврата консультант озвучит при оформлении заказа. Если с матрасом что-то не так — напишите нам, решим.' },
+  { q: 'В какие районы доставляете?', a: `Алматы: ${CITIES.almaty.districts.join(', ')} районы. Астана: ${CITIES.astana.districts.join(', ')}.` },
+];
+---
+<Base
+  title="Доставка матрасов по Алматы и Астане — бесплатно, день в день | Softmatras"
+  description="Бесплатная доставка матрасов по Алматы и Астане в день заказа, подъём на этаж, вывоз старого матраса. Отправка в другие города Казахстана."
+  crumbs={[{ name: 'Главная', href: '/' }, { name: 'Доставка и оплата', href: '/dostavka-i-oplata/' }]}
+  schema={[faqSchema(faq)]}
+>
+  <section class="page-hero wrap"><h1 class="page-h">Доставка и оплата</h1></section>
+  <section class="sec sec--tight"><div class="wrap">
+    <ul class="cards" role="list">{items.map((i) => <li class="card"><h2>{i.t}</h2><p>{i.d}</p></li>)}</ul>
+  </div></section>
+  <section class="sec sec--tight"><div class="wrap"><Faq items={faq} /></div></section>
+  <section class="sec sec--tight"><div class="wrap"><Contacts /></div></section>
+</Base>

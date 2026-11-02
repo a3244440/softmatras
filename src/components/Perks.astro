@@ -1,0 +1,19 @@
+---
+import { PERKS } from '../data/site';
+---
+<ul class="pk" role="list">
+  {PERKS.map((p) => (
+    <li class="rv">
+      <h3>{p.t}</h3>
+      <p>{p.d}</p>
+    </li>
+  ))}
+</ul>
+<style>
+  .pk { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; grid-template-columns: 1fr; border-top: 1.5px solid var(--ink); }
+  @media (min-width: 700px) { .pk { grid-template-columns: 1fr 1fr; column-gap: 40px; } }
+  @media (min-width: 1100px) { .pk { grid-template-columns: repeat(3, 1fr); } }
+  .pk li { padding: 28px 0 32px; border-bottom: 1px solid var(--line); }
+  .pk h3 { font-size: clamp(24px, 2.6vw, 34px); letter-spacing: -0.035em; margin-bottom: 10px; }
+  .pk p { color: var(--ink-2); max-width: 36ch; }
+</style>

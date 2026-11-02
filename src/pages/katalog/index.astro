@@ -1,0 +1,52 @@
+---
+import Base from '../../layouts/Base.astro';
+import Calculator from '../../components/Calculator.astro';
+import { MODELS, SIZES, SIZE_INFO, fmt, minPrice } from '../../data/site';
+import { itemListSchema, productSchema } from '../../lib/schema';
+---
+<Base
+  title={`Каталог ортопедических матрасов — цены от ${fmt(minPrice())} | Softmatras Алматы, Астана`}
+  description={`Все модели матрасов Softmatras с ценами по размерам: Престиж лайт эконом, Престиж 2, Престиж 4, Престиж Кокос, Luxury Memory, Премиум Люкс. От ${fmt(minPrice())}, доставка по Алматы и Астане.`}
+  crumbs={[{ name: 'Главная', href: '/' }, { name: 'Каталог матрасов', href: '/katalog/' }]}
+  schema={[itemListSchema(), ...MODELS.map((m) => productSchema(m))]}
+>
+  <section class="page-hero wrap">
+    <h1 class="page-h">Каталог матрасов</h1>
+    <p class="page-lead">Шесть ортопедических моделей собственного производства. Каждая — в восьми стандартных размерах и в любом нестандартном на заказ.</p>
+  </section>
+  <section class="sec sec--tight">
+    <div class="wrap">
+      <ul class="cards" role="list">
+        {MODELS.map((m) => (
+          <li><a class="card" href={`/katalog/${m.slug}/`}>
+            <span class="tag">{m.tier}</span>
+            <h2>{m.name}</h2>
+            <p>{m.short}</p>
+            <span class="price">от {fmt(Math.min(...Object.values(m.prices)))}</span>
+          </a></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+  <section class="sec sec--tight">
+    <div class="wrap">
+      <h2 class="h2">Сравнить цены по размерам</h2>
+      <Calculator id="calc-cat" />
+    </div>
+  </section>
+  <section class="sec sec--tight">
+    <div class="wrap prose" style="max-width:none">
+      <h2>Полный прайс, ₸</h2>
+      <div style="overflow-x:auto">
+        <table>
+          <thead><tr><th>Модель</th>{SIZES.map((s) => <th>{SIZE_INFO[s].label}</th>)}</tr></thead>
+          <tbody>{MODELS.map((m) => <tr><td><a class="link" href={`/katalog/${m.slug}/`}>{m.name}</a></td>{SIZES.map((s) => <td>{m.prices[s].toLocaleString('ru-RU')}</td>)}</tr>)}</tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</Base>
+<style>
+  table td, table th { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  table td:first-child, table th:first-child { text-align: left; }
+</style>

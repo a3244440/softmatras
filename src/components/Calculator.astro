@@ -1,0 +1,149 @@
+---
+// «Живая» деталь сайта: выбираешь город и размер — видишь реальные цены всех моделей и сразу заказываешь в WhatsApp.
+import { MODELS, SIZES, SIZE_INFO, CITIES, fmt, type Size, type CityKey } from '../data/site';
+import Icon from './Icon.astro';
+interface Props { size?: Size; city?: CityKey; id?: string; }
+const { size = '160x200', city = 'almaty', id = 'calc' } = Astro.props;
+const data = MODELS.map((m) => ({ slug: m.slug, name: m.name, prices: m.prices }));
+---
+<div class="calc panel" id={id} data-models={JSON.stringify(data)} data-city={city} data-size={size}>
+  <div class="calc-in">
+    <div class="calc-ctrl">
+      <fieldset class="seg" aria-label="Город">
+        <legend class="calc-lbl">Город</legend>
+        {(Object.keys(CITIES) as CityKey[]).map((c) => (
+          <label><input type="radio" name={`${id}-city`} value={c} checked={c === city} /><span>{CITIES[c].name}</span></label>
+        ))}
+      </fieldset>
+      <fieldset class="sizes" aria-label="Размер матраса">
+        <legend class="calc-lbl">Размер, см</legend>
+        <div class="chips">
+          {SIZES.map((s) => (
+            <label><input type="radio" name={`${id}-size`} value={s} checked={s === size} /><span>{SIZE_INFO[s].label}</span></label>
+          ))}
+          <a class="chip-custom" href="/matrasy-na-zakaz/">Свой размер</a>
+        </div>
+      </fieldset>
+      <p class="calc-who" data-who>{SIZE_INFO[size].who}</p>
+    </div>
+
+    <ul class="models" role="list">
+      {MODELS.map((m, i) => (
+        <li>
+          <label class="model">
+            <input type="radio" name={`${id}-model`} value={m.slug} checked={i === 3} />
+            <span class="m-top">
+              <span class="m-tier">{m.tier}</span>
+              <span class="m-name">{m.name}</span>
+            </span>
+            <span class="m-short">{m.short}</span>
+            <span class="m-price"><span data-price={m.slug}>{fmt(m.prices[size])}</span></span>
+          </label>
+        </li>
+      ))}
+    </ul>
+
+    <div class="calc-foot">
+      <div class="calc-sum">
+        <span class="calc-lbl">Ваш выбор</span>
+        <strong data-sum>{MODELS[3].name}, {SIZE_INFO[size].label}</strong>
+        <span class="calc-note">Доставка по городу бесплатно. Подушки в подарок.</span>
+      </div>
+      <a class="btn btn--pink calc-go" data-go href="#" target="_blank" rel="noopener"><Icon name="wa" /> Заказать в WhatsApp</a>
+    </div>
+  </div>
+</div>
+
+<style>
+  .calc { padding: clamp(22px, 4vw, 56px); }
+  .calc-in { display: grid; gap: 28px; }
+  .calc-lbl { display: block; font-size: 14px; color: var(--on-panel-2); margin-bottom: 10px; padding: 0; }
+  fieldset { border: 0; margin: 0; padding: 0; min-width: 0; }
+  input[type='radio'] { position: absolute; opacity: 0; pointer-events: none; }
+  .calc-ctrl { display: grid; gap: 22px; }
+  @media (min-width: 900px) { .calc-ctrl { grid-template-columns: auto 1fr; align-items: start; column-gap: 40px; } .calc-who { grid-column: 1 / -1; } }
+  .seg { display: inline-flex; }
+  .seg legend { float: left; width: 100%; }
+  .seg > label { display: inline-flex; }
+  .seg { flex-wrap: wrap; }
+  .seg span { display: inline-flex; align-items: center; min-height: 48px; padding: 0 22px; border-radius: var(--r-pill); background: var(--panel-2); cursor: pointer; font-weight: 600; transition: background-color 200ms, color 200ms; margin-right: 6px; }
+  .seg input:checked + span { background: #fff; color: #000; }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chips span, .chip-custom { display: inline-flex; align-items: center; min-height: 44px; padding: 0 16px; border-radius: var(--r-pill); box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.22); cursor: pointer; font-weight: 500; font-variant-numeric: tabular-nums; text-decoration: none; transition: background-color 200ms, box-shadow 200ms, color 200ms; }
+  .chips input:checked + span { background: var(--pink); box-shadow: none; color: #fff; }
+  .chip-custom { color: var(--on-panel-2); }
+  @media (hover: hover) { .chips span:hover, .chip-custom:hover { box-shadow: inset 0 0 0 1.5px #fff; } .seg span:hover { background: #2c2c2c; } .seg input:checked + span:hover { background: #fff; } }
+  input:focus-visible + span { outline: 2px solid var(--pink); outline-offset: 3px; }
+  .calc-who { color: var(--on-panel-2); font-size: 16px; }
+
+  .models { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .models { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1100px) { .models { grid-template-columns: repeat(3, 1fr); } }
+  .model { position: relative; display: grid; grid-template-rows: auto 1fr auto; gap: 10px; height: 100%; padding: 20px 20px 18px; border-radius: var(--r-md); background: var(--panel-2); cursor: pointer; transition: background-color 220ms, transform 160ms var(--ease-out); }
+  .model:active { transform: scale(0.985); }
+  .model:has(input:checked) { background: #fff; color: #000; }
+  .model:has(input:focus-visible) { outline: 2px solid var(--pink); outline-offset: 3px; }
+  .m-top { display: flex; flex-direction: column; gap: 4px; }
+  .m-tier { font-size: 13px; color: var(--on-panel-2); }
+  .model:has(input:checked) .m-tier, .model:has(input:checked) .m-short { color: #555; }
+  .m-name { font-size: 22px; font-weight: 600; letter-spacing: -0.03em; }
+  .m-short { font-size: 15px; color: var(--on-panel-2); line-height: 1.4; }
+  .m-price { font-size: 26px; font-weight: 600; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+  @media (max-width: 639px) {
+    .model { grid-template-columns: 1fr auto; grid-template-rows: auto; align-items: center; padding: 14px 16px; gap: 2px 12px; }
+    .m-short { display: none; }
+    .m-name { font-size: 19px; }
+    .m-price { font-size: 19px; }
+  }
+  [data-price] { display: inline-block; transition: opacity 180ms ease, transform 220ms var(--ease-out); }
+  [data-price].swap { opacity: 0; transform: translateY(6px); }
+
+  .calc-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 18px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.14); }
+  .calc-sum { display: grid; gap: 2px; }
+  .calc-sum strong { font-size: clamp(20px, 2.4vw, 26px); letter-spacing: -0.02em; font-weight: 600; }
+  .calc-note { color: var(--on-panel-2); font-size: 14px; }
+  .calc-go { min-height: 58px; padding: 0 30px; font-size: 17px; }
+  @media (max-width: 520px) { .calc-go { width: 100%; } }
+  @media (prefers-reduced-motion: reduce) { [data-price] { transition: none; } }
+</style>
+
+<script>
+  const WHO: Record<string, string> = {
+    '80x200': 'Односпальный — для ребёнка, подростка или узкой кровати в детской.',
+    '90x200': 'Односпальный — самый ходовой размер для одного взрослого и подростка.',
+    '100x200': 'Широкий односпальный — для взрослого, который любит свободно раскинуться.',
+    '120x200': 'Полуторный — одному просторно, вдвоём тесновато. Хорош для гостевой.',
+    '140x200': 'Полуторный/двуспальный — для пары в небольшой спальне.',
+    '160x200': 'Двуспальный стандарт — самый популярный размер для пары.',
+    '180x200': 'Двуспальный king size — каждому по 90 см, никто не мешает.',
+    '200x200': 'Максимальный — для пары с ребёнком или очень широкой кровати.',
+  };
+  const CITY: Record<string, string> = { almaty: 'Алматы', astana: 'Астана' };
+  const fmt = (n: number) => n.toLocaleString('ru-RU').replace(/[\s\u00a0\u202f]/g, '\u00a0') + '\u00a0₸';
+  document.querySelectorAll<HTMLElement>('.calc').forEach((root) => {
+    const models = JSON.parse(root.dataset.models!) as { slug: string; name: string; prices: Record<string, number> }[];
+    const id = root.id;
+    const val = (n: string) => (root.querySelector<HTMLInputElement>(`input[name="${id}-${n}"]:checked`)!).value;
+    const go = root.querySelector<HTMLAnchorElement>('[data-go]')!;
+    const sum = root.querySelector('[data-sum]')!;
+    const who = root.querySelector('[data-who]')!;
+    const render = (animate: boolean) => {
+      const size = val('size'), city = val('city'), slug = val('model');
+      const m = models.find((x) => x.slug === slug)!;
+      const label = size.replace('x', '×');
+      models.forEach((x) => {
+        const el = root.querySelector<HTMLElement>(`[data-price="${x.slug}"]`)!;
+        const next = fmt(x.prices[size]);
+        if (el.textContent === next) return;
+        if (!animate) { el.textContent = next; return; }
+        el.classList.add('swap');
+        setTimeout(() => { el.textContent = next; el.classList.remove('swap'); }, 160);
+      });
+      sum.textContent = `${m.name}, ${label} — ${fmt(m.prices[size])}`;
+      who.textContent = WHO[size];
+      go.href = `https://wa.me/77003177580?text=${encodeURIComponent(`Здравствуйте! Хочу заказать матрас «${m.name}» ${label} (${fmt(m.prices[size])}), город ${CITY[city]}. Подскажите по наличию и доставке.`)}`;
+    };
+    root.addEventListener('change', () => render(true));
+    render(false);
+  });
+</script>

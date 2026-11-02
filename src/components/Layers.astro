@@ -1,0 +1,45 @@
+---
+// Разрез матраса: устройство показано по видео-обзору из шоурума.
+const layers = [
+  { t: 'Чехол на молнии', d: 'Снимается для чистки. Если ткань износится — заменим.' },
+  { t: 'Слой комфорта', d: 'Мягкий верхний слой из новых материалов. Делает матрас мягче, не убивая поддержку.' },
+  { t: 'Ортопедическая основа', d: 'Пружинный блок или кокосовая койра — держит позвоночник ровно всю ночь.' },
+  { t: 'Вторая сторона', d: 'У двусторонних моделей — другая жёсткость. Переворачиваете и выбираете, на какой спать.' },
+];
+---
+<div class="ly">
+  <figure class="ly-photo rv">
+    <picture>
+      <source srcset="/img/sloi-matrasa-krupno.webp" type="image/webp" />
+      <img src="/img/sloi-matrasa-krupno.jpg" width="720" height="930" loading="lazy" decoding="async" alt="Слои ортопедического матраса Softmatras крупным планом: чехол расстёгнут на молнии" />
+    </picture>
+    <figcaption>Кадр из видео-обзора: открываем замок матраса в шоуруме</figcaption>
+  </figure>
+  <ol class="ly-list" role="list">
+    {layers.map((l, i) => (
+      <li class="ly-item" style={`--i:${i}`}>
+        <span class="ly-band" aria-hidden="true"></span>
+        <div>
+          <h3>{l.t}</h3>
+          <p>{l.d}</p>
+        </div>
+      </li>
+    ))}
+  </ol>
+</div>
+<style>
+  .ly { display: grid; gap: clamp(28px, 5vw, 72px); align-items: center; }
+  @media (min-width: 900px) { .ly { grid-template-columns: 0.9fr 1.1fr; } }
+  .ly-photo { margin: 0; }
+  .ly-photo img { width: 100%; height: auto; aspect-ratio: 720/930; object-fit: cover; border-radius: var(--r-lg); }
+  .ly-photo figcaption { font-size: 14px; color: var(--ink-3); margin-top: 10px; }
+  .ly-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+  .ly-item { display: grid; grid-template-columns: 64px 1fr; gap: 20px; align-items: start; padding: 20px 0; border-bottom: 1px solid var(--line); }
+  .ly-band { display: block; height: 22px; margin-top: 4px; border-radius: 6px; background: var(--ink); }
+  .ly-item:nth-child(1) .ly-band { background: #fff; box-shadow: inset 0 0 0 1.5px var(--ink); height: 10px; margin-top: 10px; }
+  .ly-item:nth-child(2) .ly-band { background: #f7c9da; height: 18px; margin-top: 6px; }
+  .ly-item:nth-child(3) .ly-band { background: repeating-linear-gradient(90deg, var(--ink) 0 6px, transparent 6px 10px); box-shadow: inset 0 0 0 1.5px var(--ink); height: 34px; margin-top: 0; }
+  .ly-item:nth-child(4) .ly-band { background: var(--pink); }
+  .ly-item h3 { font-size: clamp(22px, 2.4vw, 30px); letter-spacing: -0.03em; margin-bottom: 6px; }
+  .ly-item p { color: var(--ink-2); }
+</style>

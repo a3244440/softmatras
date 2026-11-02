@@ -1,0 +1,47 @@
+---
+import { VIDEOS } from '../data/site';
+import Icon from './Icon.astro';
+---
+<ul class="vids" role="list">
+  {VIDEOS.map((v) => (
+    <li class="vid rv">
+      <div class="vid-media">
+        <video preload="none" playsinline poster={v.poster} src={v.src} aria-label={v.title}></video>
+        <button class="vid-play" type="button" aria-label={`Смотреть видео: ${v.title}`}><Icon name="play" /></button>
+        <span class="vid-dur">{v.dur}</span>
+      </div>
+      <h3 class="vid-t">{v.title}</h3>
+      <p class="vid-d">{v.text}</p>
+    </li>
+  ))}
+</ul>
+<style>
+  .vids { list-style: none; margin: 0; padding: 0; display: grid; gap: 28px; grid-template-columns: 1fr; }
+  @media (min-width: 700px) { .vids { grid-template-columns: repeat(3, 1fr); gap: 20px; } }
+  @media (max-width: 699px) {
+    .vids { grid-auto-flow: column; grid-auto-columns: 78%; grid-template-columns: none; overflow-x: auto; scroll-snap-type: x mandatory; margin-inline: calc(var(--gutter) * -1); padding-inline: var(--gutter); scrollbar-width: none; }
+    .vid { scroll-snap-align: start; }
+  }
+  .vid-media { position: relative; aspect-ratio: 9 / 16; border-radius: var(--r-lg); overflow: hidden; background: #222; }
+  .vid-media video { width: 100%; height: 100%; object-fit: cover; }
+  .vid-play { position: absolute; inset: 0; margin: auto; width: 84px; height: 84px; border-radius: 50%; border: 0; background: rgba(255,255,255,.92); color: #000; display: grid; place-items: center; cursor: pointer; transition: transform 200ms var(--ease-out), opacity 200ms; }
+  .vid-play :global(svg) { width: 30px; height: 30px; margin-left: 4px; }
+  .vid-play:active { transform: scale(0.94); }
+  @media (hover: hover) { .vid-media:hover .vid-play { transform: scale(1.06); } }
+  .vid.playing .vid-play, .vid.playing .vid-dur { opacity: 0; pointer-events: none; }
+  .vid-dur { position: absolute; left: 14px; bottom: 14px; font-size: 13px; font-weight: 600; color: #fff; background: rgba(0,0,0,.55); padding: 4px 10px; border-radius: var(--r-pill); transition: opacity 200ms; }
+  .vid-t { font-size: 22px; letter-spacing: -0.025em; margin: 18px 0 6px; }
+  .vid-d { color: var(--on-panel-2, var(--ink-2)); font-size: 15.5px; }
+</style>
+<script>
+  document.querySelectorAll<HTMLElement>('.vid').forEach((card) => {
+    const v = card.querySelector('video')!;
+    const b = card.querySelector('.vid-play')!;
+    b.addEventListener('click', () => {
+      document.querySelectorAll('video').forEach((o) => { if (o !== v) o.pause(); });
+      v.controls = true; v.play(); card.classList.add('playing');
+    });
+    v.addEventListener('pause', () => { if (v.ended) card.classList.remove('playing'); });
+    v.addEventListener('ended', () => { card.classList.remove('playing'); v.controls = false; });
+  });
+</script>

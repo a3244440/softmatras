@@ -1,0 +1,150 @@
+---
+import Base from '../../layouts/Base.astro';
+import Calculator from '../../components/Calculator.astro';
+import Videos from '../../components/Videos.astro';
+import Reviews from '../../components/Reviews.astro';
+import Faq from '../../components/Faq.astro';
+import Contacts from '../../components/Contacts.astro';
+import Perks from '../../components/Perks.astro';
+import Icon from '../../components/Icon.astro';
+import { CITIES, SITE, SIZES, SIZE_INFO, MODELS, fmt, minPrice, waLink, type CityKey } from '../../data/site';
+import { storeSchema, faqSchema, videoSchemas, productSchema } from '../../lib/schema';
+
+export function getStaticPaths() {
+  return (['almaty', 'astana'] as CityKey[]).map((city) => ({ params: { city } }));
+}
+const city = Astro.params.city as CityKey;
+const c = CITIES[city];
+const other = CITIES[city === 'almaty' ? 'astana' : 'almaty'];
+
+const title = `Матрасы ${c.in} — купить ортопедический матрас от фабрики, цены | Softmatras`;
+const description = `Ортопедические матрасы ${c.in} от ${fmt(minPrice())}: 160×200, 180×200, 140×200, 90×200 и на заказ. Шоурум: ${c.address}. Доставка по ${c.name === 'Алматы' ? 'Алматы' : 'Астане'} день в день бесплатно, вывоз старого матраса.`;
+
+const faq = [
+  { q: `Где купить ортопедический матрас ${c.in}?`, a: `В шоуруме Softmatras: ${c.addressFull}${c.hours ? ' (' + c.hours.toLowerCase() + ')' : ''}. Там можно полежать на всех моделях и открыть чехол. Заказать можно и удалённо — в WhatsApp по номеру ${SITE.phoneHuman}.` },
+  { q: `Сколько стоит матрас ${c.in}?`, a: `Ортопедический матрас 90×200 — от ${fmt(minPrice('90x200'))}, 140×200 — от ${fmt(minPrice('140x200'))}, 160×200 — от ${fmt(minPrice('160x200'))}, 180×200 — от ${fmt(minPrice('180x200'))}. Цена зависит от модели: от эконом-варианта до матраса с кокосовой койрой или пеной memory.` },
+  { q: `Как быстро доставят матрас по ${c.name === 'Алматы' ? 'Алматы' : 'Астане'}?`, a: `Матрасы из наличия привозим в день заказа, бесплатно, во все районы: ${c.districts.join(', ')}. Нестандартный размер шьём за несколько дней. Поднимем на этаж и заберём старый матрас.` },
+  { q: `Можно ли купить матрас ${c.in} недорого, но не б/у?`, a: `Да. Самая доступная новая модель — «Престиж лайт эконом»: от ${fmt(minPrice('80x200'))} за 80×200 и ${fmt(MODELS[0].prices['160x200'])} за 160×200. Это дешевле салонных брендов и безопаснее, чем матрас с рук на OLX или барахолке.` },
+  { q: `Делаете матрасы на заказ ${c.in}?`, a: 'Да, любой размер и под любую кровать — это наше производство. Пришлите размеры кровати в WhatsApp, и мы посчитаем цену.' },
+];
+---
+<Base
+  title={title}
+  description={description}
+  keywords={`матрасы ${c.name}, купить матрас ${c.in}, ортопедические матрасы ${c.name}, матрасы ${c.name} цена, матрасы на заказ ${c.name}, матрас 160х200 ${c.name}, матрас 180х200 ${c.name}`}
+  geo={city}
+  crumbs={[{ name: 'Главная', href: '/' }, { name: `Матрасы ${c.in}`, href: `/${city}/` }]}
+  schema={[storeSchema(city), faqSchema(faq), ...MODELS.map((m) => productSchema(m)), ...videoSchemas()]}
+>
+  <section class="cty wrap">
+    <h1 class="cty-h">Матрасы {c.in}</h1>
+    <p class="cty-sub">Ортопедические матрасы от фабрики Softmatras. Шоурум — {c.address}.</p>
+    <div class="cty-row">
+      <p class="cty-lead">{c.note} Цены от {fmt(minPrice())} — без наценки салона. Любой размер на заказ, подушки в подарок.</p>
+      <div class="cty-cta">
+        <a class="btn btn--pink" href={waLink(`Здравствуйте! Хочу купить матрас ${c.in}.`)} target="_blank" rel="noopener"><Icon name="wa" /> Написать в WhatsApp</a>
+        <a class="btn btn--ghost" href={`tel:${SITE.phone}`}><Icon name="phone" /> {SITE.phoneHuman}</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sec--first" aria-labelledby="c1">
+    <div class="wrap">
+      <header class="sec-head">
+        <span class="sec-num">(01)</span>
+        <h2 class="sec-title" id="c1">Цены на матрасы {c.in}</h2>
+      </header>
+      <Calculator city={city} id={`calc-${city}`} />
+      <div class="prose tbl">
+        <table>
+          <caption class="sr-only">Цены на ортопедические матрасы {c.in} по размерам</caption>
+          <thead><tr><th>Размер</th><th>Для кого</th><th>Цена от</th></tr></thead>
+          <tbody>
+            {SIZES.map((s) => (
+              <tr><td><a class="link" href={`/${city}/matras-${s}/`}>Матрас {SIZE_INFO[s].label}</a></td><td>{SIZE_INFO[s].bed}</td><td>{fmt(minPrice(s))}</td></tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sec--dark on-dark" aria-labelledby="c2">
+    <div class="wrap">
+      <header class="sec-head">
+        <span class="sec-num">(02)</span>
+        <h2 class="sec-title" id="c2">Наши матрасы на видео</h2>
+      </header>
+      <Videos />
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="c3">
+    <div class="wrap">
+      <header class="sec-head">
+        <span class="sec-num">(03)</span>
+        <h2 class="sec-title" id="c3">Отзывы покупателей</h2>
+      </header>
+      <Reviews limit={6} />
+      <p class="more"><a class="btn" href="/otzyvy/">Все {SITE.reviewCount} отзыва</a></p>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="c4">
+    <div class="wrap">
+      <header class="sec-head">
+        <span class="sec-num">(04)</span>
+        <h2 class="sec-title" id="c4">Почему покупают у нас</h2>
+      </header>
+      <Perks />
+    </div>
+  </section>
+
+  <section class="sec sec--tight">
+    <div class="wrap prose">
+      <h2>Как купить ортопедический матрас {c.in}</h2>
+      <p>Чтобы выбрать матрас, достаточно знать размер кровати, вес спящих и любимую позу сна. Консультант Softmatras подберёт жёсткость и модель за пару минут в WhatsApp, а в шоуруме по адресу {c.address} можно полежать на каждом матрасе и открыть чехол, чтобы увидеть слои.</p>
+      <p>Доставляем бесплатно по всем районам {c.gen}: {c.districts.join(', ')}. Стандартные размеры из наличия — в день заказа. Нестандартный матрас на заказ шьём за несколько дней. Старый матрас вывезем и утилизируем.</p>
+      <h3>Какие матрасы чаще покупают {c.in}</h3>
+      <ul>
+        {MODELS.map((m) => <li><a class="link" href={`/katalog/${m.slug}/`}>{m.name}</a> — {m.short.toLowerCase()} 160×200 — {fmt(m.prices['160x200'])}.</li>)}
+      </ul>
+      <p>Нужен матрас в другом городе? У нас есть шоурум и в <a class="link" href={`/${other.key}/`}>{other.name === 'Алматы' ? 'Алматы' : 'Астане'}</a>, а в другие города Казахстана отправляем на следующий день.</p>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="c5">
+    <div class="wrap">
+      <header class="sec-head">
+        <span class="sec-num">(05)</span>
+        <h2 class="sec-title" id="c5">Вопросы о покупке {c.in}</h2>
+      </header>
+      <Faq items={faq} />
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="c6">
+    <div class="wrap">
+      <header class="sec-head">
+        <span class="sec-num">(06)</span>
+        <h2 class="sec-title" id="c6">Шоурум {c.in}</h2>
+      </header>
+      <Contacts only={city} />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .cty { padding-top: clamp(24px, 5vw, 64px); }
+  .cty-h { font-size: clamp(3.2rem, 12vw, 11rem); letter-spacing: -0.06em; line-height: 0.88; }
+  .cty-sub { font-size: clamp(20px, 2.4vw, 30px); letter-spacing: -0.025em; font-weight: 500; margin-top: 18px; max-width: 30ch; color: var(--ink-2); }
+  .cty-row { display: grid; gap: 24px; margin-top: 36px; padding-top: 24px; border-top: 1.5px solid var(--ink); }
+  @media (min-width: 900px) { .cty-row { grid-template-columns: 1fr auto; align-items: center; } }
+  .cty-lead { max-width: 60ch; font-size: 18px; }
+  .cty-cta { display: flex; flex-wrap: wrap; gap: 10px; }
+  .sec--first { padding-top: clamp(56px, 8vw, 110px); }
+  .sec--dark { background: var(--panel); color: var(--on-panel); border-radius: var(--r-lg); margin-inline: clamp(8px, 1.4vw, 20px); }
+  .sec--tight { padding-block: clamp(32px, 5vw, 64px); }
+  .tbl { max-width: none; margin-top: 40px; }
+  .more { text-align: center; margin-top: 36px; }
+</style>

@@ -1,0 +1,33 @@
+---
+import { CITIES, SITE, waLink, type CityKey } from '../data/site';
+import Icon from './Icon.astro';
+interface Props { only?: CityKey; }
+const { only } = Astro.props;
+const keys = (only ? [only] : ['almaty', 'astana']) as CityKey[];
+---
+<div class="cts" data-n={keys.length}>
+  {keys.map((k) => {
+    const c = CITIES[k];
+    return (
+      <article class="ct">
+        <h3 class="ct-city">{c.name}</h3>
+        <p class="ct-addr">{c.address}</p>
+        <p class="ct-note">{c.hours ? c.hours + '. ' : ''}{c.note}</p>
+        <div class="ct-act">
+          <a class="btn btn--pink" href={waLink(`Здравствуйте! Пишу с сайта, город ${c.name}. Хочу подобрать матрас.`)} target="_blank" rel="noopener"><Icon name="wa" /> WhatsApp</a>
+          <a class="btn btn--ghost" href={`tel:${SITE.phone}`}><Icon name="phone" /> {SITE.phoneHuman}</a>
+          <a class="btn btn--ghost" href={c.map} target="_blank" rel="noopener"><Icon name="pin" /> Маршрут в 2ГИС</a>
+        </div>
+      </article>
+    );
+  })}
+</div>
+<style>
+  .cts { display: grid; gap: 16px; }
+  @media (min-width: 900px) { .cts[data-n='2'] { grid-template-columns: 1fr 1fr; } }
+  .ct { background: var(--paper); border-radius: var(--r-lg); padding: clamp(24px, 4vw, 44px); display: grid; gap: 12px; align-content: start; }
+  .ct-city { font-size: clamp(44px, 6vw, 76px); letter-spacing: -0.05em; }
+  .ct-addr { font-size: clamp(20px, 2.2vw, 26px); font-weight: 600; letter-spacing: -0.02em; }
+  .ct-note { color: var(--ink-2); }
+  .ct-act { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+</style>

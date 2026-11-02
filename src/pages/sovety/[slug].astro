@@ -1,0 +1,41 @@
+---
+import Base from '../../layouts/Base.astro';
+import Icon from '../../components/Icon.astro';
+import { ARTICLES, type Article } from '../../data/articles';
+import { waLink, SITE } from '../../data/site';
+export function getStaticPaths() { return ARTICLES.map((a) => ({ params: { slug: a.slug }, props: { a } })); }
+const { a } = Astro.props as { a: Article };
+const more = ARTICLES.filter((x) => x.slug !== a.slug);
+---
+<Base
+  title={a.title}
+  description={a.description}
+  keywords={a.keywords}
+  crumbs={[{ name: 'Главная', href: '/' }, { name: 'Советы', href: '/sovety/' }, { name: a.h1, href: `/sovety/${a.slug}/` }]}
+  schema={[{ '@type': 'Article', headline: a.h1, description: a.description, datePublished: a.date, dateModified: a.date, inLanguage: 'ru-KZ', author: { '@id': `${SITE.url}/#org` }, publisher: { '@id': `${SITE.url}/#org` }, mainEntityOfPage: `${SITE.url}/sovety/${a.slug}/` }]}
+>
+  <article>
+    <header class="page-hero wrap">
+      <h1 class="page-h" style="max-width:18ch">{a.h1}</h1>
+      <p class="page-lead">{a.lead}</p>
+    </header>
+    <div class="wrap"><div class="prose art" set:html={a.body} /></div>
+  </article>
+  <section class="sec sec--tight">
+    <div class="wrap">
+      <div class="ask panel">
+        <h2>Не уверены, какой матрас нужен вам?</h2>
+        <p>Напишите вес, позу сна и размер кровати — консультант ответит в WhatsApp за пару минут.</p>
+        <a class="btn btn--pink" href={waLink('Здравствуйте! Помогите подобрать матрас.')} target="_blank" rel="noopener"><Icon name="wa" /> Спросить консультанта</a>
+      </div>
+      <h2 class="h2" style="margin-top:64px">Ещё по теме</h2>
+      <ul class="cards" role="list">{more.map((m) => <li><a class="card" href={`/sovety/${m.slug}/`}><h3>{m.h1}</h3><p>{m.lead}</p></a></li>)}</ul>
+    </div>
+  </section>
+</Base>
+<style>
+  .art :global(a) { text-decoration: underline; text-underline-offset: 3px; }
+  .ask { padding: clamp(28px, 5vw, 56px); display: grid; gap: 14px; justify-items: start; }
+  .ask h2 { font-size: clamp(28px, 4vw, 48px); letter-spacing: -0.045em; }
+  .ask p { color: var(--on-panel-2); max-width: 50ch; }
+</style>

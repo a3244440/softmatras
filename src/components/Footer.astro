@@ -1,0 +1,68 @@
+---
+import { SITE, CITIES, SIZES, SIZE_INFO } from '../data/site';
+import Icon from './Icon.astro';
+const year = new Date().getFullYear();
+---
+<footer class="ft">
+  <div class="wrap">
+    <p class="ft-big">Спите <br />без переплат.</p>
+    <div class="ft-grid">
+      <div>
+        <h2 class="ft-h">Алматы</h2>
+        <p>{CITIES.almaty.address}</p>
+        <p class="ft-sub">Производство и шоурум</p>
+        <h2 class="ft-h" style="margin-top:22px">Астана</h2>
+        <p>{CITIES.astana.address}</p>
+        <p class="ft-sub">{CITIES.astana.hours}</p>
+      </div>
+      <div>
+        <h2 class="ft-h">Матрасы в Алматы</h2>
+        <ul>{SIZES.map((s) => <li><a href={`/almaty/matras-${s}/`}>Матрас {SIZE_INFO[s].label}</a></li>)}</ul>
+      </div>
+      <div>
+        <h2 class="ft-h">Матрасы в Астане</h2>
+        <ul>{SIZES.map((s) => <li><a href={`/astana/matras-${s}/`}>Матрас {SIZE_INFO[s].label}</a></li>)}</ul>
+      </div>
+      <div>
+        <h2 class="ft-h">Покупателям</h2>
+        <ul>
+          <li><a href="/katalog/">Каталог матрасов</a></li>
+          <li><a href="/ortopedicheskie-matrasy/">Ортопедические матрасы</a></li>
+          <li><a href="/matrasy-na-zakaz/">Матрасы на заказ</a></li>
+          <li><a href="/dostavka-i-oplata/">Доставка и оплата</a></li>
+          <li><a href="/otzyvy/">Отзывы</a></li>
+          <li><a href="/sovety/">Как выбрать матрас</a></li>
+          <li><a href="/kontakty/">Контакты</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="ft-bot">
+      <a class="ft-tel" href={`tel:${SITE.phone}`}>{SITE.phoneHuman}</a>
+      <div class="ft-soc">
+        <a href={`https://wa.me/${SITE.whatsapp}`} aria-label="WhatsApp" target="_blank" rel="noopener"><Icon name="wa" /></a>
+        <a href={SITE.instagram} aria-label="Instagram @softmatras" target="_blank" rel="noopener"><Icon name="ig" /></a>
+        <a href={SITE.twoGis} aria-label="Softmatras в 2ГИС" target="_blank" rel="noopener"><Icon name="pin" /></a>
+      </div>
+      <p class="ft-copy">© {SITE.foundingYear}–{year} Softmatras, {SITE.legalName}. Фабрика ортопедических матрасов в Казахстане.</p>
+    </div>
+  </div>
+</footer>
+<style>
+  .ft { background: var(--panel); color: var(--on-panel); padding: clamp(64px, 9vw, 120px) 0 32px; margin-top: 40px; border-radius: var(--r-lg) var(--r-lg) 0 0; }
+  .ft-big { font-size: clamp(3rem, 11vw, 10rem); font-weight: 600; letter-spacing: -0.05em; line-height: .92; margin-bottom: clamp(48px, 7vw, 96px); }
+  .ft-grid { display: grid; gap: 36px; grid-template-columns: 1fr; }
+  @media (min-width: 640px) { .ft-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1000px) { .ft-grid { grid-template-columns: 1.3fr 1fr 1fr 1fr; } }
+  .ft-h { font-size: 15px; font-weight: 600; letter-spacing: 0; color: var(--on-panel-2); margin-bottom: 12px; }
+  .ft ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+  .ft a { text-decoration: none; }
+  .ft ul a:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .ft-sub { color: var(--on-panel-2); font-size: 15px; }
+  .ft-bot { display: flex; flex-wrap: wrap; align-items: center; gap: 20px 32px; margin-top: 64px; padding-top: 28px; border-top: 1px solid rgba(255,255,255,.14); }
+  .ft-tel { font-size: clamp(24px, 3vw, 32px); font-weight: 600; letter-spacing: -0.03em; }
+  .ft-soc { display: flex; gap: 10px; }
+  .ft-soc a { width: 48px; height: 48px; border-radius: 50%; background: var(--panel-2); display: grid; place-items: center; transition: background-color 200ms; }
+  .ft-soc a:hover { background: var(--pink); }
+  .ft-soc :global(svg) { width: 22px; height: 22px; }
+  .ft-copy { flex-basis: 100%; color: var(--on-panel-2); font-size: 14px; }
+</style>

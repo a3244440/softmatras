@@ -1,0 +1,11 @@
+---
+import Icon from './Icon.astro';
+import { waLink } from '../data/site';
+---
+<a class="fwa" href={waLink('Здравствуйте! Хочу подобрать матрас.')} aria-label="Написать в WhatsApp" target="_blank" rel="noopener"><Icon name="wa" /></a>
+<style>
+  .fwa { position: fixed; right: max(16px, env(safe-area-inset-right)); bottom: max(16px, env(safe-area-inset-bottom)); z-index: 40; width: 64px; height: 64px; border-radius: 50%; background: var(--pink); color: #fff; display: grid; place-items: center; box-shadow: 0 10px 30px -8px rgba(229, 82, 138, .65); transition: transform 180ms var(--ease-out); }
+  .fwa :global(svg) { width: 32px; height: 32px; }
+  .fwa:active { transform: scale(0.94); }
+  @media (hover: hover) { .fwa:hover { transform: translateY(-2px); } }
+</style>

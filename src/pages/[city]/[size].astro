@@ -1,0 +1,146 @@
+---
+import Base from '../../layouts/Base.astro';
+import Calculator from '../../components/Calculator.astro';
+import Reviews from '../../components/Reviews.astro';
+import Faq from '../../components/Faq.astro';
+import Contacts from '../../components/Contacts.astro';
+import Icon from '../../components/Icon.astro';
+import { CITIES, SITE, SIZES, SIZE_INFO, MODELS, fmt, minPrice, waLink, type CityKey, type Size } from '../../data/site';
+import { faqSchema, productSchema, storeSchema } from '../../lib/schema';
+
+export function getStaticPaths() {
+  return (['almaty', 'astana'] as CityKey[]).flatMap((city) => SIZES.map((s) => ({ params: { city, size: `matras-${s}` }, props: { s } })));
+}
+const city = Astro.params.city as CityKey;
+const { s } = Astro.props as { s: Size };
+const c = CITIES[city];
+const L = SIZE_INFO[s].label;
+const [w, h] = s.split('x');
+const words = `${w} на ${h}`;
+const cityDat = city === 'almaty' ? 'Алматы' : 'Астане';
+const sorted = [...MODELS].sort((a, b) => a.prices[s] - b.prices[s]);
+const min = minPrice(s);
+const max = Math.max(...MODELS.map((m) => m.prices[s]));
+
+const title = `Матрас ${L} купить ${c.in} — цена от ${fmt(min)} | Softmatras`;
+const description = `Ортопедический матрас ${L} (${words}) ${c.in}: ${MODELS.length} моделей от ${fmt(min)} до ${fmt(max)}. Своя фабрика, доставка по ${cityDat} в день заказа бесплатно. Шоурум: ${c.address}.`;
+
+const faq = [
+  { q: `Сколько стоит матрас ${L} ${c.in}?`, a: `От ${fmt(min)} за «${sorted[0].name}» до ${fmt(max)} за «${sorted[sorted.length - 1].name}». Самый популярный вариант — «Престиж Кокос» за ${fmt(MODELS[3].prices[s])}.` },
+  { q: `Какой матрас ${words} выбрать?`, a: `${SIZE_INFO[s].who} Если болит спина — берите жёсткую модель с кокосовой койрой (Престиж Кокос). Любите мягко — Luxury Memory. Нужен бюджетный вариант — Престиж лайт эконом.` },
+  { q: `Есть ли матрас ${L} в наличии ${c.in}?`, a: `Размер ${L} — стандартный, обычно есть в наличии и доставляется по ${cityDat} в день заказа. Наличие конкретной модели уточните в WhatsApp: ${SITE.phoneHuman}.` },
+  { q: `Можно сделать матрас ${w}×${Number(h) + 10} или другой нестандартный?`, a: 'Да, мы производим матрасы сами и шьём любой размер — длиннее, шире, под конкретную кровать. Срок обычно несколько дней.' },
+];
+const others = SIZES.filter((x) => x !== s);
+---
+<Base
+  title={title}
+  description={description}
+  keywords={`матрас ${s.replace('x', 'х')} ${c.name}, матрас ${words} ${c.name}, матрас ${L} купить, матрасы ${c.name} ${s.replace('x', 'х')}, ортопедический матрас ${L} цена`}
+  geo={city}
+  crumbs={[{ name: 'Главная', href: '/' }, { name: `Матрасы ${c.in}`, href: `/${city}/` }, { name: `Матрас ${L}`, href: `/${city}/matras-${s}/` }]}
+  schema={[...MODELS.map((m) => productSchema(m, s, city)), faqSchema(faq), storeSchema(city)]}
+>
+  <section class="sz wrap">
+    <h1 class="sz-h"><span class="sz-dim">{L}</span><span class="sz-t">Матрас {words} {c.in}</span></h1>
+    <div class="sz-row">
+      <p class="sz-lead">{SIZE_INFO[s].who} {MODELS.length} ортопедических моделей от фабрики Softmatras — от {fmt(min)}. Бесплатная доставка по {cityDat}, вывоз старого матраса и подушки в подарок.</p>
+      <div class="sz-cta">
+        <a class="btn btn--pink" href={waLink(`Здравствуйте! Хочу матрас ${L}, город ${c.name}.`)} target="_blank" rel="noopener"><Icon name="wa" /> Заказать {L}</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sec--first" aria-labelledby="p1">
+    <div class="wrap">
+      <h2 class="sz-h2" id="p1">Цены на матрасы {L} {c.in}</h2>
+      <ol class="pl" role="list">
+        {sorted.map((m) => (
+          <li class="pl-row">
+            <span class="pl-tier">{m.tier}</span>
+            <a class="pl-name" href={`/katalog/${m.slug}/`}>{m.name} {L}</a>
+            <span class="pl-d">{m.short}</span>
+            <span class="pl-p">{fmt(m.prices[s])}</span>
+            <a class="btn pl-btn" href={waLink(`Здравствуйте! Хочу заказать матрас «${m.name}» ${L} (${fmt(m.prices[s])}), город ${c.name}.`)} target="_blank" rel="noopener">Заказать</a>
+          </li>
+        ))}
+      </ol>
+      <p class="pl-note">Цены указаны за матрас {L}. Для другого размера и города — в калькуляторе ниже.</p>
+    </div>
+  </section>
+
+  <section class="sec sec--tight" aria-label="Калькулятор цены">
+    <div class="wrap"><Calculator size={s} city={city} id={`calc-${city}-${s}`} /></div>
+  </section>
+
+  <section class="sec sec--tight">
+    <div class="wrap prose">
+      <h2>Как выбрать матрас {L}</h2>
+      <p>Размер {L} — {SIZE_INFO[s].bed}. Перед заказом измерьте кровать по внутреннему краю рамы: матрас должен входить свободно, без зазоров больше 1–2 см. Если размер кровати отличается хотя бы на пару сантиметров, лучше заказать матрас по точным меркам — мы сошьём его на своём производстве.</p>
+      <p>Жёсткость выбирайте по весу и позе сна. Тем, кто спит на спине и животе, и людям с весом от 90 кг подойдут жёсткие и средне-жёсткие модели. На боку удобнее на мягком или среднем матрасе, который пропускает плечо. Двусторонние модели позволяют попробовать обе стороны и выбрать свою.</p>
+      <h3>Доставка матраса {L} по {cityDat}</h3>
+      <p>Привозим бесплатно в любой район {c.gen}: {c.districts.join(', ')}. Поднимем на этаж даже без лифта и заберём старый матрас на утилизацию. Посмотреть матрас {words} вживую можно в шоуруме: {c.address}.</p>
+    </div>
+  </section>
+
+  <section class="sec sec--tight" aria-labelledby="p3">
+    <div class="wrap">
+      <h2 class="sz-h2" id="p3">Отзывы покупателей</h2>
+      <Reviews limit={6} />
+    </div>
+  </section>
+
+  <section class="sec sec--tight" aria-labelledby="p4">
+    <div class="wrap">
+      <h2 class="sz-h2" id="p4">Вопросы про матрас {L}</h2>
+      <Faq items={faq} />
+    </div>
+  </section>
+
+  <section class="sec sec--tight" aria-labelledby="p5">
+    <div class="wrap">
+      <h2 class="sz-h2" id="p5">Другие размеры {c.in}</h2>
+      <div class="os">
+        {others.map((o) => <a href={`/${city}/matras-${o}/`}><b>{SIZE_INFO[o].label}</b><span>от {fmt(minPrice(o))}</span></a>)}
+        <a href="/matrasy-na-zakaz/"><b>Свой размер</b><span>на заказ</span></a>
+      </div>
+      <p class="os-other">Этот же размер в другом городе: <a class="link" href={`/${city === 'almaty' ? 'astana' : 'almaty'}/matras-${s}/`}>матрас {L} {city === 'almaty' ? 'в Астане' : 'в Алматы'}</a>.</p>
+    </div>
+  </section>
+
+  <section class="sec sec--tight">
+    <div class="wrap"><Contacts only={city} /></div>
+  </section>
+</Base>
+
+<style>
+  .sz { padding-top: clamp(24px, 5vw, 64px); }
+  .sz-h { display: flex; flex-direction: column; gap: 10px; }
+  .sz-dim { font-size: clamp(5rem, 22vw, 18rem); letter-spacing: -0.07em; line-height: 0.82; font-variant-numeric: tabular-nums; }
+  .sz-t { font-size: clamp(1.7rem, 4.4vw, 3.6rem); letter-spacing: -0.04em; }
+  .sz-row { display: grid; gap: 22px; margin-top: 32px; padding-top: 24px; border-top: 1.5px solid var(--ink); }
+  @media (min-width: 900px) { .sz-row { grid-template-columns: 1fr auto; align-items: center; } }
+  .sz-lead { max-width: 62ch; font-size: 18px; }
+  .sz-h2 { font-size: clamp(2rem, 5vw, 4rem); letter-spacing: -0.045em; margin-bottom: 28px; }
+  .sec--first { padding-top: clamp(56px, 8vw, 100px); padding-bottom: 24px; }
+  .sec--tight { padding-block: clamp(32px, 5vw, 64px); }
+  .pl { list-style: none; margin: 0; padding: 0; border-top: 1.5px solid var(--ink); }
+  .pl-row { display: grid; grid-template-columns: 1fr auto; gap: 4px 20px; padding: 20px 0; border-bottom: 1px solid var(--line); align-items: center; }
+  .pl-tier { grid-column: 1; font-size: 13px; color: var(--ink-3); }
+  .pl-name { grid-column: 1; font-size: clamp(22px, 2.6vw, 30px); font-weight: 600; letter-spacing: -0.03em; text-decoration: none; }
+  .pl-name:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .pl-d { grid-column: 1; color: var(--ink-2); font-size: 15px; }
+  .pl-p { grid-column: 2; grid-row: 1 / 3; font-size: clamp(22px, 2.6vw, 30px); font-weight: 600; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; text-align: right; }
+  .pl-btn { grid-column: 2; grid-row: 3; min-height: 44px; padding: 0 20px; }
+  @media (min-width: 900px) {
+    .pl-row { grid-template-columns: 110px 1.1fr 1.4fr auto auto; gap: 20px; }
+    .pl-tier, .pl-name, .pl-d, .pl-p, .pl-btn { grid-column: auto; grid-row: auto; }
+  }
+  .pl-note { color: var(--ink-3); font-size: 14px; margin-top: 14px; }
+  .os { display: flex; flex-wrap: wrap; gap: 8px; }
+  .os a { display: grid; padding: 14px 20px; background: var(--paper); border-radius: var(--r-md); text-decoration: none; min-width: 140px; transition: background-color 200ms; }
+  .os a:hover { background: #fff0f5; }
+  .os b { font-size: 22px; letter-spacing: -0.03em; }
+  .os span { font-size: 14px; color: var(--ink-2); }
+  .os-other { margin-top: 20px; color: var(--ink-2); }
+</style>

@@ -1,0 +1,181 @@
+---
+import Base from '../layouts/Base.astro';
+import Calculator from '../components/Calculator.astro';
+import Videos from '../components/Videos.astro';
+import Reviews from '../components/Reviews.astro';
+import Faq from '../components/Faq.astro';
+import Contacts from '../components/Contacts.astro';
+import Layers from '../components/Layers.astro';
+import Perks from '../components/Perks.astro';
+import Icon from '../components/Icon.astro';
+import { SITE, FAQ_GENERAL, SIZES, SIZE_INFO, MODELS, fmt, minPrice, waLink } from '../data/site';
+import { storeSchema, faqSchema, videoSchemas, itemListSchema } from '../lib/schema';
+
+const title = 'Ортопедические матрасы в Алматы и Астане от фабрики — Softmatras';
+const description = `Купить ортопедический матрас в Алматы и Астане от ${fmt(minPrice())}. Своя фабрика, любой размер на заказ (160×200, 180×200, 140×200), доставка день в день бесплатно, подушки в подарок. Рейтинг ${SITE.rating} в 2ГИС.`;
+---
+<Base
+  title={title}
+  description={description}
+  keywords="матрасы Алматы, матрасы Астана, ортопедический матрас купить, матрас 160х200, матрас 180х200, матрасы на заказ, купить матрас недорого"
+  schema={[storeSchema('almaty'), storeSchema('astana'), faqSchema(FAQ_GENERAL), itemListSchema(), ...videoSchemas()]}
+>
+  <section class="hero wrap">
+    <p class="hero-kicker rv">Фабрика матрасов с {SITE.foundingYear} года. Алматы и Астана.</p>
+    <h1 class="hero-h rv">Ортопедические матрасы <span class="hero-h2">от фабрики — в Алматы и Астане</span></h1>
+    <div class="hero-grid">
+      <div class="hero-copy rv">
+        <p class="hero-lead">Шьём сами, поэтому без переплаты за бренд и салон. Любой размер — даже 160×230. Привезём в день заказа, заберём старый матрас и подарим подушки.</p>
+        <div class="hero-cta">
+          <a class="btn btn--pink" href={waLink('Здравствуйте! Хочу подобрать ортопедический матрас.')} target="_blank" rel="noopener"><Icon name="wa" /> Подобрать в WhatsApp</a>
+          <a class="btn btn--ghost" href="#calc">Цены по размерам</a>
+        </div>
+        <dl class="stats">
+          <div><dt>лет производим матрасы</dt><dd>{SITE.years}</dd></div>
+          <div><dt>клиентов</dt><dd>{SITE.clients}</dd></div>
+          <div><dt>рейтинг в 2ГИС</dt><dd>{String(SITE.rating).replace('.', ',')}</dd></div>
+          <div><dt>матрасов в месяц</dt><dd>{SITE.perMonth}</dd></div>
+        </dl>
+      </div>
+      <figure class="hero-media rv">
+        <picture>
+          <source srcset="/img/matras-astana-zakat.webp" type="image/webp" />
+          <img src="/img/matras-astana-zakat.jpg" width="720" height="1000" fetchpriority="high" decoding="async" alt="Мама с дочкой тестируют матрас Softmatras на набережной в Астане на закате" />
+        </picture>
+        <a class="hero-play" href="#video"><span><Icon name="play" /></span> Реакция людей на наш матрас</a>
+      </figure>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="calc-h">
+    <div class="wrap">
+      <header class="sec-head">
+        <span class="sec-num">(01)</span>
+        <h2 class="sec-title" id="calc-h">Цена за ваш размер — сразу</h2>
+        <p class="sec-lead">Выберите город и размер кровати: цены всех моделей пересчитаются. Понравилась модель — отправьте заказ в WhatsApp одной кнопкой.</p>
+      </header>
+      <Calculator />
+    </div>
+  </section>
+
+  <section class="sec sec--dark on-dark" id="video" aria-labelledby="vid-h">
+    <div class="wrap">
+      <header class="sec-head">
+        <span class="sec-num">(02)</span>
+        <h2 class="sec-title" id="vid-h">Смотрите, а потом приходите полежать</h2>
+        <p class="sec-lead">Три коротких ролика из нашего Instagram: реакция прохожих в Астане, разбор матраса до последнего слоя и отельный матрас по акции.</p>
+      </header>
+      <Videos />
+      <p class="vid-more"><a class="btn btn--light" href={SITE.instagram} target="_blank" rel="noopener"><Icon name="ig" /> Больше в Instagram — {SITE.followers} подписчиков</a></p>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="ly-h">
+    <div class="wrap">
+      <header class="sec-head">
+        <span class="sec-num">(03)</span>
+        <h2 class="sec-title" id="ly-h">Расстегнули чехол. Вот что внутри</h2>
+        <p class="sec-lead">Мы не прячем начинку: в шоуруме любой матрас можно открыть и посмотреть слои своими глазами. Без клея и химического запаха.</p>
+      </header>
+      <Layers />
+    </div>
+  </section>
+
+  <section class="sec sec--paper" aria-labelledby="rev-h">
+    <div class="wrap">
+      <header class="sec-head">
+        <span class="sec-num">(04)</span>
+        <h2 class="sec-title" id="rev-h">Что говорят те, кто уже спит на Softmatras</h2>
+      </header>
+      <Reviews limit={9} />
+      <p class="more"><a class="btn" href="/otzyvy/">Все отзывы</a></p>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="pk-h">
+    <div class="wrap">
+      <header class="sec-head">
+        <span class="sec-num">(05)</span>
+        <h2 class="sec-title" id="pk-h">Почему у фабрики дешевле, чем в салоне</h2>
+      </header>
+      <Perks />
+    </div>
+  </section>
+
+  <section class="sec sec--tight" aria-labelledby="seo-h">
+    <div class="wrap seo">
+      <div class="prose">
+        <h2 id="seo-h">Матрасы в Алматы и Астане по цене производителя</h2>
+        <p>Softmatras — казахстанская фабрика ортопедических матрасов. С {SITE.foundingYear} года мы шьём матрасы для квартир, детских, гостиниц и съёмного жилья и продаём их напрямую, без дистрибьюторов. Поэтому ортопедический матрас 160×200 у нас стоит от {fmt(minPrice('160x200'))}, а 180×200 — от {fmt(minPrice('180x200'))}.</p>
+        <p>В линейке шесть моделей — от недорогого «Престиж лайт эконом» до флагмана «Премиум Люкс». Есть жёсткие матрасы с кокосовой койрой для тех, у кого болит спина, мягкие модели с пеной memory и двусторонние матрасы с разной жёсткостью сторон. Любую модель сошьём в нестандартный размер.</p>
+        <h3>Популярные размеры</h3>
+      </div>
+      <div class="size-links">
+        {SIZES.map((s) => (
+          <div class="sl">
+            <span class="sl-size">{SIZE_INFO[s].label}</span>
+            <span class="sl-price">от {fmt(minPrice(s))}</span>
+            <span class="sl-links"><a href={`/almaty/matras-${s}/`}>Алматы</a><a href={`/astana/matras-${s}/`}>Астана</a></span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" aria-labelledby="faq-h">
+    <div class="wrap">
+      <header class="sec-head">
+        <span class="sec-num">(06)</span>
+        <h2 class="sec-title" id="faq-h">Частые вопросы</h2>
+      </header>
+      <Faq items={FAQ_GENERAL} />
+    </div>
+  </section>
+
+  <section class="sec" id="contacts" aria-labelledby="ct-h">
+    <div class="wrap">
+      <header class="sec-head">
+        <span class="sec-num">(07)</span>
+        <h2 class="sec-title" id="ct-h">Два шоурума. Приходите полежать</h2>
+      </header>
+      <Contacts />
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero { padding-top: clamp(28px, 6vw, 80px); padding-bottom: clamp(40px, 6vw, 80px); }
+  .hero-kicker { font-size: 16px; font-weight: 500; color: var(--ink-2); margin-bottom: 18px; }
+  .hero-h { font-size: clamp(2.9rem, 9.6vw, 9.4rem); letter-spacing: -0.055em; line-height: 0.9; max-width: 15ch; }
+  .hero-h2 { display: block; color: var(--ink-3); font-size: 0.5em; letter-spacing: -0.045em; line-height: 1; margin-top: 0.22em; max-width: 22ch; }
+  .hero-grid { display: grid; gap: 36px; margin-top: clamp(32px, 5vw, 64px); align-items: end; }
+  @media (min-width: 960px) { .hero-grid { grid-template-columns: 1.15fr 0.85fr; gap: 56px; } }
+  .hero-lead { font-size: clamp(19px, 1.8vw, 23px); line-height: 1.45; max-width: 34ch; letter-spacing: -0.01em; }
+  .hero-cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+  .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; margin: 40px 0 0; border-top: 1.5px solid var(--ink); }
+  @media (min-width: 600px) { .stats { grid-template-columns: repeat(4, 1fr); } }
+  .stats div { display: flex; flex-direction: column-reverse; padding: 18px 12px 0 0; }
+  .stats dd { margin: 0; white-space: nowrap; font-size: clamp(30px, 3.4vw, 46px); font-weight: 600; letter-spacing: -0.05em; line-height: 1; font-variant-numeric: tabular-nums; }
+  .stats dt { font-size: 14px; color: var(--ink-2); margin-top: 6px; }
+  .hero-media { position: relative; margin: 0; }
+  .hero-media img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 60%; border-radius: var(--r-lg); }
+  .hero-play { position: absolute; left: 16px; bottom: 16px; display: inline-flex; align-items: center; gap: 12px; padding: 8px 18px 8px 8px; border-radius: var(--r-pill); background: #fff; text-decoration: none; font-weight: 600; font-size: 15px; transition: transform 160ms var(--ease-out); }
+  .hero-play span { width: 40px; height: 40px; border-radius: 50%; background: var(--pink); color: #fff; display: grid; place-items: center; }
+  .hero-play :global(svg) { width: 18px; height: 18px; margin-left: 2px; }
+  .hero-play:active { transform: scale(0.97); }
+
+  .sec--dark { background: var(--panel); color: var(--on-panel); border-radius: var(--r-lg); margin-inline: clamp(8px, 1.4vw, 20px); }
+  .sec--dark :global(.vid-d) { color: var(--on-panel-2); }
+  .sec--paper { background: #e9e9e9; }
+  .sec--tight { padding-block: clamp(40px, 6vw, 80px); }
+  .vid-more, .more { text-align: center; margin-top: 40px; }
+
+  .seo { display: grid; gap: 24px; }
+  .size-links { display: grid; grid-template-columns: 1fr; border-top: 1.5px solid var(--ink); }
+  @media (min-width: 700px) { .size-links { grid-template-columns: 1fr 1fr; column-gap: 40px; } }
+  .sl { display: grid; grid-template-columns: 1fr auto; gap: 2px 16px; padding: 16px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+  .sl-size { font-size: 26px; font-weight: 600; letter-spacing: -0.03em; }
+  .sl-price { color: var(--ink-2); font-variant-numeric: tabular-nums; }
+  .sl-links { grid-column: 1 / -1; display: flex; gap: 16px; font-size: 15px; }
+  .sl-links a { text-decoration: underline; text-underline-offset: 3px; }
+</style>

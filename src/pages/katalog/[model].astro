@@ -1,0 +1,59 @@
+---
+import Base from '../../layouts/Base.astro';
+import Calculator from '../../components/Calculator.astro';
+import Reviews from '../../components/Reviews.astro';
+import Icon from '../../components/Icon.astro';
+import { MODELS, SIZES, SIZE_INFO, fmt, waLink, type Model } from '../../data/site';
+import { productSchema } from '../../lib/schema';
+
+export function getStaticPaths() {
+  return MODELS.map((m) => ({ params: { model: m.slug }, props: { m } }));
+}
+const { m } = Astro.props as { m: Model };
+const lo = Math.min(...Object.values(m.prices));
+const others = MODELS.filter((x) => x.slug !== m.slug);
+---
+<Base
+  title={`Матрас ${m.name} — цена от ${fmt(lo)}, купить в Алматы и Астане | Softmatras`}
+  description={`Ортопедический матрас ${m.name}: ${m.short} Цены: 90×200 — ${fmt(m.prices['90x200'])}, 160×200 — ${fmt(m.prices['160x200'])}, 180×200 — ${fmt(m.prices['180x200'])}. Доставка по Алматы и Астане бесплатно.`}
+  crumbs={[{ name: 'Главная', href: '/' }, { name: 'Каталог', href: '/katalog/' }, { name: m.name, href: `/katalog/${m.slug}/` }]}
+  schema={[productSchema(m)]}
+>
+  <section class="page-hero wrap">
+    <span class="tag">{m.tier}</span>
+    <h1 class="page-h" style="margin-top:14px">Матрас {m.name}</h1>
+    <p class="page-lead">{m.text}</p>
+    <ul class="feat" role="list">{m.features.map((f) => <li>{f}</li>)}</ul>
+    <div class="page-cta">
+      <a class="btn btn--pink" href={waLink(`Здравствуйте! Интересует матрас «${m.name}».`)} target="_blank" rel="noopener"><Icon name="wa" /> Заказать {m.name}</a>
+    </div>
+  </section>
+  <section class="sec sec--tight">
+    <div class="wrap prose">
+      <h2>Цены на матрас {m.name}</h2>
+      <table>
+        <thead><tr><th>Размер</th><th>Алматы</th><th>Астана</th><th>Цена</th></tr></thead>
+        <tbody>{SIZES.map((s) => <tr><td>{SIZE_INFO[s].label}</td><td><a class="link" href={`/almaty/matras-${s}/`}>в Алматы</a></td><td><a class="link" href={`/astana/matras-${s}/`}>в Астане</a></td><td>{fmt(m.prices[s])}</td></tr>)}</tbody>
+      </table>
+      <p>Нужен другой размер? Сошьём <a class="link" href="/matrasy-na-zakaz/">матрас на заказ</a> по вашим меркам.</p>
+    </div>
+  </section>
+  <section class="sec sec--tight">
+    <div class="wrap"><Calculator id="calc-m" /></div>
+  </section>
+  <section class="sec sec--tight">
+    <div class="wrap"><h2 class="h2">Отзывы</h2><Reviews limit={6} /></div>
+  </section>
+  <section class="sec sec--tight">
+    <div class="wrap">
+      <h2 class="h2">Другие модели</h2>
+      <ul class="cards" role="list">
+        {others.map((o) => <li><a class="card" href={`/katalog/${o.slug}/`}><span class="tag">{o.tier}</span><h3>{o.name}</h3><p>{o.short}</p><span class="price">от {fmt(Math.min(...Object.values(o.prices)))}</span></a></li>)}
+      </ul>
+    </div>
+  </section>
+</Base>
+<style>
+  .feat { list-style: none; padding: 0; margin: 24px 0 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .feat li { padding: 8px 16px; border-radius: var(--r-pill); background: var(--paper); font-weight: 500; }
+</style>
