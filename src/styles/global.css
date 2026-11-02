@@ -80,18 +80,21 @@ p { margin: 0; text-wrap: pretty; }
 
 /* Black panel with a notched tab on top-left (motif from the reference) */
 .panel {
+  --ear-h: 60px; --ear-r: 28px; --ear-w: min(38%, 340px);
   position: relative; background: var(--panel); color: var(--on-panel);
   border-radius: 0 var(--r-lg) var(--r-lg) var(--r-lg);
-  margin-top: 34px;
+  margin-top: var(--ear-h);
 }
+/* «Ушко» над панелью: выпуклое скругление сверху и вогнутое у основания дают плавный S-изгиб */
 .panel::before {
-  content: ''; position: absolute; left: 0; top: -33px; width: min(38%, 340px); height: 34px;
-  background: var(--panel); border-radius: var(--r-lg) var(--r-lg) 0 0;
+  content: ''; position: absolute; left: 0; top: calc(var(--ear-h) * -1 + 1px); width: var(--ear-w); height: var(--ear-h);
+  background: var(--panel); border-radius: var(--ear-r) var(--ear-r) 0 0;
 }
 .panel::after {
-  content: ''; position: absolute; left: calc(min(38%, 340px) - 1px); top: -33px; width: 34px; height: 34px;
-  background: radial-gradient(circle at 100% 0, transparent 33.5px, var(--panel) 34px);
+  content: ''; position: absolute; left: calc(var(--ear-w) - 1px); top: calc(var(--ear-r) * -1 + 1px); width: var(--ear-r); height: var(--ear-r);
+  background: radial-gradient(circle at 100% 0, transparent calc(var(--ear-r) - 0.5px), var(--panel) var(--ear-r));
 }
+@media (max-width: 600px) { .panel { --ear-h: 44px; --ear-r: 22px; --ear-w: 42%; } }
 
 .tag { display: inline-block; font-size: 13px; font-weight: 600; padding: 5px 11px; border-radius: var(--r-pill); background: rgba(0,0,0,.06); }
 .on-dark .tag { background: rgba(255,255,255,.12); }
@@ -139,3 +142,33 @@ p { margin: 0; text-wrap: pretty; }
 .card h2, .card h3 { font-size: clamp(26px, 2.8vw, 34px); letter-spacing: -0.035em; }
 .card p { color: var(--ink-2); }
 .card .price { font-size: 24px; font-weight: 600; letter-spacing: -0.03em; margin-top: auto; padding-top: 8px; }
+
+/* ===== Motion (в духе mt-webdesign: заголовки по словам, раскрытие фото, бегущая строка) ===== */
+.js [data-split] .w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: 0.1em; margin-bottom: -0.1em; }
+.js [data-split] .wi { display: inline-block; transform: translate3d(0, 108%, 0) rotate(4deg); transform-origin: 0 100%; transition: transform 1000ms var(--ease-out); transition-delay: calc(var(--i, 0) * 60ms); }
+.js [data-split].split-in .wi { transform: none; }
+
+.js .reveal-img { clip-path: inset(10% 8% 10% 8% round var(--r-lg)); transition: clip-path 1300ms var(--ease-out); }
+.js .reveal-img img { transform: scale(1.18); transition: transform 1600ms var(--ease-out); }
+.js .reveal-img.in { clip-path: inset(0 0 0 0 round var(--r-lg)); }
+.js .reveal-img.in img { transform: scale(1); }
+[data-parallax] { will-change: transform; }
+
+.js .panel.rise { opacity: 0; transform: translate3d(0, 60px, 0) scale(0.97); transition: opacity 900ms var(--ease-out), transform 1100ms var(--ease-out); }
+.js .panel.rise.in { opacity: 1; transform: none; }
+
+.marquee { overflow: hidden; background: var(--ink); color: #fff; padding: clamp(18px, 2.4vw, 30px) 0; transform: rotate(-1.2deg); margin: clamp(20px, 3vw, 40px) -10px; }
+.marquee-track { display: flex; width: max-content; animation: mq 38s linear infinite; }
+.marquee span { display: inline-flex; align-items: center; gap: clamp(18px, 2.4vw, 36px); padding-right: clamp(18px, 2.4vw, 36px); font-size: clamp(28px, 4.4vw, 64px); font-weight: 600; letter-spacing: -0.04em; white-space: nowrap; }
+.marquee i { font-style: normal; color: var(--pink); font-size: 0.7em; }
+@keyframes mq { to { transform: translate3d(-50%, 0, 0); } }
+@media (hover: hover) { .marquee:hover .marquee-track { animation-play-state: paused; } }
+
+@keyframes loadIn { from { opacity: 0; transform: translate3d(0, 28px, 0); } }
+.js .load-in { animation: loadIn 1000ms var(--ease-out) both; animation-delay: var(--d, 0ms); }
+
+@media (prefers-reduced-motion: reduce) {
+  .js .load-in { animation: none; }
+  .js [data-split] .wi, .js .reveal-img, .js .reveal-img img, .js .panel.rise { transform: none !important; clip-path: none !important; opacity: 1 !important; transition: none !important; }
+  .marquee-track { animation: none; }
+}

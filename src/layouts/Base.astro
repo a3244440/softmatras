@@ -63,7 +63,7 @@ const geoMeta = geo === 'astana'
   <link rel="sitemap" href="/sitemap-index.xml" />
   <slot name="head" />
   <script type="application/ld+json" set:html={JSON.stringify(graph)} />
-  <script is:inline>document.documentElement.classList.remove('no-js')</script>
+  <script is:inline>document.documentElement.classList.remove('no-js');document.documentElement.classList.add('js')</script>
 </head>
 <body>
   <a href="#main" class="sr-only">Перейти к содержимому</a>
@@ -76,9 +76,69 @@ const geoMeta = geo === 'astana'
   <main id="main"><slot /></main>
   <Footer />
   <FloatWa />
-  <script>
-    const io = new IntersectionObserver((es) => es.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -8% 0px' });
-    document.querySelectorAll('.rv').forEach((el) => io.observe(el));
+  <script is:inline>
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // 1. Разбиваем заголовки на слова (с сохранением вложенных тегов)
+    const split = (el) => {
+      let n = 0;
+      const walk = (node) => {
+        [...node.childNodes].forEach((c) => {
+          if (c.nodeType === 3) {
+            const parts = (c.textContent || '').split(/(\s+)/);
+            const frag = document.createDocumentFragment();
+            parts.forEach((p) => {
+              if (!p) return;
+              if (/^\s+$/.test(p)) { frag.appendChild(document.createTextNode(p)); return; }
+              const w = document.createElement('span'); w.className = 'w';
+              const wi = document.createElement('span'); wi.className = 'wi'; wi.style.setProperty('--i', String(n++)); wi.textContent = p;
+              w.appendChild(wi); frag.appendChild(w);
+            });
+            c.replaceWith(frag);
+          } else if (c.nodeType === 1 && !c.matches('svg, img, br')) walk(c);
+        });
+      };
+      walk(el);
+    };
+    const splitSel = '.hero-h, .sec-title, .page-h, .cty-h, .sz-t, .pd-h, .ft-big, .h2, .sz-h2';
+    document.querySelectorAll(splitSel).forEach((el) => { el.setAttribute('data-split', ''); split(el); });
+    document.querySelectorAll('.hero-media, .ly-photo').forEach((el) => el.classList.add('reveal-img'));
+    document.querySelectorAll('.panel').forEach((el) => el.classList.add('rise'));
+
+    // 2. Появление по скроллу
+    const io = new IntersectionObserver((es) => es.forEach((e) => {
+      if (!e.isIntersecting) return;
+      const t = e.target;
+      t.classList.add(t.hasAttribute('data-split') ? 'split-in' : 'in');
+      if (t.matches('[data-count]')) count(t);
+      io.unobserve(t);
+    }), { rootMargin: '0px 0px -10% 0px' });
+    document.querySelectorAll('.rv, [data-split], .reveal-img, .panel.rise').forEach((el) => io.observe(el));
+
+    // 3. Счётчики цифр
+    const count = (el) => {
+      const raw = el.dataset.count || el.textContent || '';
+      const m = raw.match(/[\d\s,]+/); if (!m || reduce) return;
+      const target = parseFloat(m[0].replace(/\s/g, '').replace(',', '.')); const dec = m[0].includes(',') ? 1 : 0;
+      const pre = raw.slice(0, m.index), post = raw.slice((m.index || 0) + m[0].length);
+      const t0 = performance.now(), dur = 1400;
+      const tick = (t) => {
+        const k = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - k, 4);
+        const v = target * e;
+        el.textContent = pre + (dec ? v.toFixed(1).replace('.', ',') : Math.round(v).toLocaleString('ru-RU').replace(/\u00a0/g, ' ')) + post;
+        if (k < 1) requestAnimationFrame(tick);
+      };
+      requestAnimationFrame(tick);
+    };
+    document.querySelectorAll('.stats dd').forEach((el) => { el.dataset.count = el.textContent || ''; io.observe(el); });
+
+    // 4. Параллакс фото в первом экране
+    const par = document.querySelectorAll('[data-parallax]');
+    if (par.length && !reduce) {
+      let ticking = false;
+      const upd = () => { par.forEach((el) => { const r = el.parentElement.getBoundingClientRect(); const p = (r.top + r.height / 2 - innerHeight / 2) / innerHeight; el.style.transform = `translate3d(0, ${(p * -40).toFixed(1)}px, 0)`; }); ticking = false; };
+      addEventListener('scroll', () => { if (!ticking) { ticking = true; requestAnimationFrame(upd); } }, { passive: true });
+      upd();
+    }
   </script>
 </body>
 </html>
