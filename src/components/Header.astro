@@ -19,18 +19,18 @@ const path = Astro.url.pathname;
     <a class="hd-tel" href={`tel:${SITE.phone}`}>{SITE.phoneHuman}</a>
     <button class="burger" aria-expanded="false" aria-controls="menu" aria-label="Открыть меню"><span></span><span></span><span></span></button>
   </div>
-  <div class="menu" id="menu" hidden>
-    <nav class="wrap" aria-label="Мобильное меню">
-      {nav.map((n) => <a href={n.href}>{n.t}</a>)}
-      <a href="/dostavka-i-oplata/">Доставка и оплата</a>
-      <a href="/sovety/">Как выбрать матрас</a>
-      <div class="menu-cta">
-        <a class="btn btn--pink" href={`https://wa.me/${SITE.whatsapp}`}>Написать в WhatsApp</a>
-        <a class="btn btn--light" href={`tel:${SITE.phone}`}>{SITE.phoneHuman}</a>
-      </div>
-    </nav>
-  </div>
 </header>
+<div class="menu" id="menu" hidden>
+  <nav class="wrap" aria-label="Мобильное меню">
+    {nav.map((n) => <a href={n.href}>{n.t}</a>)}
+    <a href="/dostavka-i-oplata/">Доставка и оплата</a>
+    <a href="/sovety/">Как выбрать матрас</a>
+    <div class="menu-cta">
+      <a class="btn btn--pink" href={`https://wa.me/${SITE.whatsapp}`}>Написать в WhatsApp</a>
+      <a class="btn btn--light" href={`tel:${SITE.phone}`}>{SITE.phoneHuman}</a>
+    </div>
+  </nav>
+</div>
 
 <style>
   .hd { position: relative; z-index: 50; background: var(--bg); }
@@ -52,7 +52,7 @@ const path = Astro.url.pathname;
   .menu { position: fixed; inset: 0; z-index: 49; background: var(--bg); overflow: auto; padding: 100px 0 40px; }
   .menu nav { display: flex; flex-direction: column; }
   .menu nav > a { font-size: clamp(30px, 8vw, 44px); font-weight: 600; letter-spacing: -0.04em; text-decoration: none; padding: 8px 0; }
-  .menu-cta { display: grid; gap: 10px; margin-top: 28px; }
+  .menu-cta { display: grid; gap: 10px; margin-top: 28px; max-width: 420px; }
   .menu:not([hidden]) { animation: mIn 280ms var(--ease-out); }
   @keyframes mIn { from { opacity: 0; transform: translateY(-8px); } }
   @media (min-width: 1080px) {
