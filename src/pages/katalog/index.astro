@@ -1,52 +1,55 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Calculator from '../../components/Calculator.astro';
-import { MODELS, SIZES, SIZE_INFO, fmt, minPrice } from '../../data/site';
+import ProductCard from '../../components/ProductCard.astro';
+import { PRODUCTS, CATS, byCat, fromPrice, type Cat } from '../../data/products';
+import { fmt } from '../../data/site';
 import { itemListSchema, productSchema } from '../../lib/schema';
+const cats = Object.keys(CATS) as Cat[];
+const catHref: Record<Cat, string> = { matras: '/ortopedicheskie-matrasy/', topper: '/toppery/', namatrasnik: '/namatrasniki/', podushka: '/podushki/' };
+const minAll = Math.min(...PRODUCTS.filter((p) => p.cat === 'matras').map(fromPrice));
 ---
 <Base
-  title={`Каталог ортопедических матрасов: цены от ${fmt(minPrice())} | Softmatras Алматы, Астана`}
-  description={`Все модели матрасов Softmatras с ценами по размерам: Престиж лайт эконом, Престиж 2, Престиж 4, Престиж Кокос, Luxury Memory, Премиум Люкс. От ${fmt(minPrice())}, доставка по Алматы и Астане.`}
-  crumbs={[{ name: 'Главная', href: '/' }, { name: 'Каталог матрасов', href: '/katalog/' }]}
-  schema={[itemListSchema(), ...MODELS.map((m) => productSchema(m))]}
+  title={`Каталог Softmatras: матрасы от ${fmt(minAll)}, топперы, наматрасники, подушки | Алматы, Астана`}
+  description={`Все товары фабрики Softmatras с ценами: ${byCat('matras').length} ортопедических матрасов, ${byCat('topper').length} топперов, наматрасники и ортопедические подушки. Доставка по Алматы и Астане бесплатно.`}
+  crumbs={[{ name: 'Главная', href: '/' }, { name: 'Каталог', href: '/katalog/' }]}
+  schema={[itemListSchema(), ...PRODUCTS.map((p) => productSchema(p))]}
 >
   <section class="page-hero wrap">
-    <h1 class="page-h">Каталог матрасов</h1>
-    <p class="page-lead">Шесть ортопедических моделей собственного производства. Каждая есть в восьми стандартных размерах и в любом нестандартном на заказ.</p>
+    <h1 class="page-h">Каталог</h1>
+    <p class="page-lead">{PRODUCTS.length} товаров для сна: матрасы собственного производства, топперы, наматрасники и ортопедические подушки.</p>
+    <nav class="cat-nav" aria-label="Разделы каталога">
+      {cats.map((c) => <a href={`#${CATS[c].slug}`}>{CATS[c].name} <span>{byCat(c).length}</span></a>)}
+    </nav>
   </section>
-  <section class="sec sec--tight">
-    <div class="wrap">
-      <ul class="cards" role="list">
-        {MODELS.map((m) => (
-          <li><a class="card" href={`/katalog/${m.slug}/`}>
-            <span class="tag">{m.tier}</span>
-            <h2>{m.name}</h2>
-            <p>{m.short}</p>
-            <span class="price">от {fmt(Math.min(...Object.values(m.prices)))}</span>
-          </a></li>
-        ))}
-      </ul>
-    </div>
-  </section>
-  <section class="sec sec--tight">
-    <div class="wrap">
-      <h2 class="h2">Сравнить цены по размерам</h2>
-      <Calculator id="calc-cat" />
-    </div>
-  </section>
-  <section class="sec sec--tight">
-    <div class="wrap prose" style="max-width:none">
-      <h2>Полный прайс, ₸</h2>
-      <div style="overflow-x:auto">
-        <table>
-          <thead><tr><th>Модель</th>{SIZES.map((s) => <th>{SIZE_INFO[s].label}</th>)}</tr></thead>
-          <tbody>{MODELS.map((m) => <tr><td><a class="link" href={`/katalog/${m.slug}/`}>{m.name}</a></td>{SIZES.map((s) => <td>{m.prices[s].toLocaleString('ru-RU')}</td>)}</tr>)}</tbody>
-        </table>
+
+  {cats.map((c, i) => (
+    <section class="sec sec--tight" id={CATS[c].slug} aria-labelledby={`h-${c}`}>
+      <div class="wrap">
+        <header class="cat-head">
+          <span class="sec-num">({String(i + 1).padStart(2, '0')})</span>
+          <h2 class="h2" id={`h-${c}`}>{CATS[c].name}</h2>
+          <p>{CATS[c].lead} <a class="link" href={catHref[c]}>Подробнее о разделе</a></p>
+        </header>
+        <ul class="cards" role="list">
+          {byCat(c).map((p, k) => <li><ProductCard p={p} eager={i === 0 && k < 3} /></li>)}
+        </ul>
       </div>
+    </section>
+  ))}
+
+  <section class="sec sec--tight">
+    <div class="wrap">
+      <h2 class="h2">Сравнить матрасы по размерам</h2>
+      <Calculator id="calc-cat" />
     </div>
   </section>
 </Base>
 <style>
-  table td, table th { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
-  table td:first-child, table th:first-child { text-align: left; }
+  .cat-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 28px; }
+  .cat-nav a { display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 0 20px; border-radius: var(--r-pill); background: var(--ink); color: #fff; text-decoration: none; font-weight: 600; }
+  .cat-nav span { font-size: 13px; opacity: .6; }
+  .cat-head { display: grid; gap: 6px; margin-bottom: 28px; max-width: 760px; }
+  .cat-head .h2 { margin-bottom: 0; }
+  .cat-head p { color: var(--ink-2); }
 </style>

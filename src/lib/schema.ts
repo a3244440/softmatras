@@ -1,3 +1,4 @@
+import { PRODUCTS } from '../data/products';
 import { SITE, CITIES, type CityKey, MODELS, REVIEWS, SIZES, type Model, VIDEOS } from '../data/site';
 
 const U = SITE.url;
@@ -56,20 +57,23 @@ export const reviewNode = (r: typeof REVIEWS[number]) => ({
   publisher: { '@type': 'Organization', name: '2ГИС' },
 });
 
-export const productSchema = (m: Model, size?: typeof SIZES[number], city?: CityKey) => {
+const CAT_NAME: Record<string, string> = { matras: 'Ортопедические матрасы', topper: 'Топперы', namatrasnik: 'Наматрасники', podushka: 'Ортопедические подушки' };
+export const productSchema = (m: Model, size?: string, city?: CityKey) => {
   const prices = Object.values(m.prices);
   const urlPath = `${U}/katalog/${m.slug}/`;
-  const offers = size
-    ? { '@type': 'Offer', price: m.prices[size], priceCurrency: 'KZT', availability: 'https://schema.org/InStock', url: urlPath, itemCondition: 'https://schema.org/NewCondition', ...(city ? { areaServed: CITIES[city].name } : {}), seller: { '@id': `${U}/#org` } }
+  const one = size && m.prices[size] !== undefined ? m.prices[size] : prices.length === 1 ? prices[0] : undefined;
+  const offers = one !== undefined
+    ? { '@type': 'Offer', price: one, priceCurrency: 'KZT', availability: 'https://schema.org/InStock', url: urlPath, itemCondition: 'https://schema.org/NewCondition', ...(city ? { areaServed: CITIES[city].name } : {}), seller: { '@id': `${U}/#org` } }
     : { '@type': 'AggregateOffer', lowPrice: Math.min(...prices), highPrice: Math.max(...prices), offerCount: prices.length, priceCurrency: 'KZT', availability: 'https://schema.org/InStock', url: urlPath, seller: { '@id': `${U}/#org` } };
   return {
     '@type': 'Product',
-    name: `Ортопедический матрас ${m.name}${size ? ' ' + size.replace('x', '×') : ''}`,
+    name: `${m.cat === 'matras' ? 'Ортопедический матрас ' : ''}${m.name}${size ? ' ' + size.replace('x', '×') : ''}`,
     description: m.text,
     brand: { '@type': 'Brand', name: SITE.name },
-    category: 'Ортопедические матрасы',
-    image: `${U}/img/sloi-matrasa-krupno.jpg`,
+    category: CAT_NAME[m.cat],
+    image: `${U}${m.img}`,
     sku: `SM-${m.slug}${size ? '-' + size : ''}`,
+    additionalProperty: m.specs.map(([name, value]) => ({ '@type': 'PropertyValue', name, value })),
     offers,
   };
 };
@@ -98,6 +102,6 @@ export const videoSchemas = () =>
 
 export const itemListSchema = () => ({
   '@type': 'ItemList',
-  name: 'Ортопедические матрасы Softmatras',
-  itemListElement: MODELS.map((m, i) => ({ '@type': 'ListItem', position: i + 1, url: `${U}/katalog/${m.slug}/`, name: m.name })),
+  name: 'Каталог Softmatras: матрасы, топперы, наматрасники, подушки',
+  itemListElement: PRODUCTS.map((m, i) => ({ '@type': 'ListItem', position: i + 1, url: `${U}/katalog/${m.slug}/`, name: m.name })),
 });

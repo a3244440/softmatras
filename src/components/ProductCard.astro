@@ -1,0 +1,41 @@
+---
+import type { Product } from '../data/products';
+import { fromPrice } from '../data/products';
+import { fmt } from '../data/site';
+interface Props { p: Product; h?: 'h2' | 'h3'; eager?: boolean; }
+const { p, h = 'h3', eager = false } = Astro.props;
+const lo = fromPrice(p);
+const loKey = Object.keys(p.prices).find((k) => p.prices[k] === lo)!;
+const old = p.old?.[loKey];
+const H = h;
+---
+<a class="pc" href={`/katalog/${p.slug}/`}>
+  <span class="pc-img">
+    <img src={p.img} width="700" height="607" loading={eager ? 'eager' : 'lazy'} decoding="async" alt={`${p.name}: фото и разрез`} />
+  </span>
+  <span class="pc-body">
+    {p.tier && <span class="tag">{p.tier}</span>}
+    <H class="pc-name">{p.name}</H>
+    <span class="pc-short">{p.short}</span>
+    <span class="pc-price">
+      <b>{Object.keys(p.prices).length > 1 ? 'от ' : ''}{fmt(lo)}</b>
+      {old && <s>{fmt(old)}</s>}
+    </span>
+    {p.gift && <span class="pc-gift">{p.gift}</span>}
+  </span>
+</a>
+<style>
+  .pc { display: grid; grid-template-rows: auto 1fr; height: 100%; background: var(--paper); border-radius: var(--r-lg); overflow: hidden; text-decoration: none; transition: transform 220ms var(--ease-out); }
+  @media (hover: hover) { .pc:hover { transform: translateY(-3px); } }
+  .pc:active { transform: scale(0.99); }
+  .pc-img { display: block; background: #fff; padding: 12px 12px 0; }
+  .pc-img img { width: 100%; height: auto; aspect-ratio: 700 / 607; object-fit: contain; }
+  .pc-body { display: flex; flex-direction: column; gap: 8px; padding: 18px 22px 22px; border-top: 1px solid var(--line); }
+  .pc-body .tag { align-self: flex-start; }
+  .pc-name { font-size: 22px; letter-spacing: -0.03em; line-height: 1.15; }
+  .pc-short { color: var(--ink-2); font-size: 15px; line-height: 1.45; }
+  .pc-price { display: flex; align-items: baseline; gap: 10px; margin-top: auto; padding-top: 6px; font-variant-numeric: tabular-nums; }
+  .pc-price b { font-size: 24px; font-weight: 600; letter-spacing: -0.03em; }
+  .pc-price s { color: var(--ink-3); font-size: 15px; }
+  .pc-gift { font-size: 13px; font-weight: 600; color: var(--pink-ink); }
+</style>

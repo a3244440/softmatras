@@ -1,59 +1,103 @@
 ---
 import Base from '../../layouts/Base.astro';
-import Calculator from '../../components/Calculator.astro';
 import Reviews from '../../components/Reviews.astro';
+import ProductCard from '../../components/ProductCard.astro';
 import Icon from '../../components/Icon.astro';
-import { MODELS, SIZES, SIZE_INFO, fmt, waLink, type Model } from '../../data/site';
+import { PRODUCTS, CATS, fromPrice, sizeLabel, type Product } from '../../data/products';
+import { SIZES, fmt, waLink } from '../../data/site';
 import { productSchema } from '../../lib/schema';
 
 export function getStaticPaths() {
-  return MODELS.map((m) => ({ params: { model: m.slug }, props: { m } }));
+  return PRODUCTS.map((m) => ({ params: { model: m.slug }, props: { m } }));
 }
-const { m } = Astro.props as { m: Model };
-const lo = Math.min(...Object.values(m.prices));
-const others = MODELS.filter((x) => x.slug !== m.slug);
+const { m } = Astro.props as { m: Product };
+const lo = fromPrice(m);
+const sizes = Object.keys(m.prices);
+const single = sizes.length === 1 && sizes[0] === 'one';
+const others = PRODUCTS.filter((x) => x.cat === m.cat && x.slug !== m.slug).slice(0, 6);
+const catHref = { matras: '/ortopedicheskie-matrasy/', topper: '/toppery/', namatrasnik: '/namatrasniki/', podushka: '/podushki/' }[m.cat];
+const isMatras = m.cat === 'matras';
+const fullName = isMatras ? `Матрас ${m.name}` : m.name;
+const priceLine = single ? fmt(lo) : sizes.slice(0, 3).map((s) => `${sizeLabel(s)}: ${fmt(m.prices[s])}`).join(', ');
+const hasOld = sizes.some((s) => m.old?.[s]);
 ---
 <Base
-  title={`Матрас ${m.name}: цена от ${fmt(lo)}, купить в Алматы и Астане | Softmatras`}
-  description={`Ортопедический матрас ${m.name}: ${m.short} Цены: 90×200 от ${fmt(m.prices['90x200'])}, 160×200 от ${fmt(m.prices['160x200'])}, 180×200 от ${fmt(m.prices['180x200'])}. Доставка по Алматы и Астане бесплатно.`}
-  crumbs={[{ name: 'Главная', href: '/' }, { name: 'Каталог', href: '/katalog/' }, { name: m.name, href: `/katalog/${m.slug}/` }]}
+  title={`${fullName}: цена ${single ? '' : 'от '}${fmt(lo)}, купить в Алматы и Астане | Softmatras`}
+  description={`${fullName}. ${m.short} ${single ? 'Цена' : 'Цены'}: ${priceLine}. Доставка по Алматы и Астане бесплатно.`}
+  crumbs={[{ name: 'Главная', href: '/' }, { name: 'Каталог', href: '/katalog/' }, { name: CATS[m.cat].name, href: catHref }, { name: m.name, href: `/katalog/${m.slug}/` }]}
   schema={[productSchema(m)]}
+  image={m.img}
 >
-  <section class="page-hero wrap">
-    <span class="tag">{m.tier}</span>
-    <h1 class="page-h" style="margin-top:14px">Матрас {m.name}</h1>
-    <p class="page-lead">{m.text}</p>
-    <ul class="feat" role="list">{m.features.map((f) => <li>{f}</li>)}</ul>
-    <div class="page-cta">
-      <a class="btn btn--pink" href={waLink(`Здравствуйте! Интересует матрас «${m.name}».`)} target="_blank" rel="noopener"><Icon name="wa" /> Заказать {m.name}</a>
+  <section class="pd wrap">
+    <figure class="pd-img"><img src={m.img} width="700" height="607" fetchpriority="high" alt={`${fullName}: устройство и слои`} /></figure>
+    <div class="pd-info">
+      {m.tier && <span class="tag">{m.tier}</span>}
+      <h1 class="pd-h">{fullName}</h1>
+      <p class="pd-lead">{m.text}</p>
+      <p class="pd-price"><b>{single ? '' : 'от '}{fmt(lo)}</b>{m.old && single && <s>{fmt(m.old.one)}</s>}</p>
+      {m.gift && <p class="pd-gift">{m.gift}</p>}
+      <div class="page-cta">
+        <a class="btn btn--pink" href={waLink(`Здравствуйте! Хочу заказать: ${fullName}.`)} target="_blank" rel="noopener"><Icon name="wa" /> Заказать в WhatsApp</a>
+        <a class="btn btn--ghost" href="tel:+77003177580"><Icon name="phone" /> Позвонить</a>
+      </div>
+      <p class="pd-note">Бесплатная доставка по Алматы и Астане. Можно посмотреть в шоуруме.</p>
     </div>
   </section>
+
   <section class="sec sec--tight">
-    <div class="wrap prose">
-      <h2>Цены на матрас {m.name}</h2>
-      <table>
-        <thead><tr><th>Размер</th><th>Алматы</th><th>Астана</th><th>Цена</th></tr></thead>
-        <tbody>{SIZES.map((s) => <tr><td>{SIZE_INFO[s].label}</td><td><a class="link" href={`/almaty/matras-${s}/`}>в Алматы</a></td><td><a class="link" href={`/astana/matras-${s}/`}>в Астане</a></td><td>{fmt(m.prices[s])}</td></tr>)}</tbody>
-      </table>
-      <p>Нужен другой размер? Сошьём <a class="link" href="/matrasy-na-zakaz/">матрас на заказ</a> по вашим меркам.</p>
+    <div class="wrap pd-grid">
+      <div class="prose">
+        <h2>Характеристики</h2>
+        <table class="specs"><tbody>{m.specs.map(([k, v]) => <tr><th>{k}</th><td>{v}</td></tr>)}</tbody></table>
+      </div>
+      {!single && (
+        <div class="prose">
+          <h2>Цены по размерам</h2>
+          <table>
+            <thead><tr><th>Размер</th>{hasOld && <th>Было</th>}<th>Цена</th></tr></thead>
+            <tbody>
+              {sizes.map((s) => (
+                <tr>
+                  <td>{isMatras && (SIZES as readonly string[]).includes(s) ? <a class="link" href={`/almaty/matras-${s}/`}>{sizeLabel(s)}</a> : sizeLabel(s)}</td>
+                  {hasOld && <td class="was">{m.old?.[s] ? fmt(m.old[s]) : ''}</td>}
+                  <td>{fmt(m.prices[s])}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <p>Нужен другой размер? Сошьём <a class="link" href="/matrasy-na-zakaz/">на заказ</a> по вашим меркам.</p>
+        </div>
+      )}
     </div>
   </section>
-  <section class="sec sec--tight">
-    <div class="wrap"><Calculator id="calc-m" /></div>
-  </section>
-  <section class="sec sec--tight">
-    <div class="wrap"><h2 class="h2">Отзывы</h2><Reviews limit={6} /></div>
-  </section>
+
+  {isMatras && <section class="sec sec--tight"><div class="wrap"><h2 class="h2">Отзывы покупателей</h2><Reviews limit={6} /></div></section>}
+
   <section class="sec sec--tight">
     <div class="wrap">
-      <h2 class="h2">Другие модели</h2>
-      <ul class="cards" role="list">
-        {others.map((o) => <li><a class="card" href={`/katalog/${o.slug}/`}><span class="tag">{o.tier}</span><h3>{o.name}</h3><p>{o.short}</p><span class="price">от {fmt(Math.min(...Object.values(o.prices)))}</span></a></li>)}
-      </ul>
+      <h2 class="h2">Ещё в разделе «{CATS[m.cat].name}»</h2>
+      <ul class="cards" role="list">{others.map((o) => <li><ProductCard p={o} /></li>)}</ul>
     </div>
   </section>
 </Base>
 <style>
-  .feat { list-style: none; padding: 0; margin: 24px 0 0; display: flex; flex-wrap: wrap; gap: 8px; }
-  .feat li { padding: 8px 16px; border-radius: var(--r-pill); background: var(--paper); font-weight: 500; }
+  .pd { display: grid; gap: 28px; padding-top: clamp(20px, 4vw, 48px); align-items: center; }
+  @media (min-width: 960px) { .pd { grid-template-columns: 1fr 1fr; gap: 56px; } }
+  .pd-img { margin: 0; background: #fff; border-radius: var(--r-lg); padding: 16px; }
+  .pd-img img { width: 100%; height: auto; }
+  .pd-info { display: grid; gap: 14px; justify-items: start; }
+  .pd-h { font-size: clamp(2.4rem, 5.4vw, 4.6rem); letter-spacing: -0.05em; line-height: .95; }
+  .pd-lead { color: var(--ink-2); font-size: 18px; max-width: 56ch; }
+  .pd-price { display: flex; align-items: baseline; gap: 12px; }
+  .pd-price b { font-size: clamp(32px, 4vw, 44px); letter-spacing: -0.04em; font-weight: 600; }
+  .pd-price s { color: var(--ink-3); font-size: 18px; }
+  .pd-gift { font-weight: 600; color: var(--pink-ink); }
+  .pd-note { color: var(--ink-3); font-size: 14px; }
+  .pd-grid { display: grid; gap: 24px; }
+  @media (min-width: 960px) { .pd-grid { grid-template-columns: 1fr 1fr; gap: 56px; } }
+  .pd-grid .prose { max-width: none; }
+  .pd-grid h2 { margin-top: 0; }
+  .specs th { width: 42%; color: var(--ink-2); font-weight: 500; }
+  .specs td { text-align: left !important; white-space: normal !important; }
+  .was { color: var(--ink-3); text-decoration: line-through; }
 </style>

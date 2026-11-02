@@ -4,7 +4,7 @@ import Calculator from '../components/Calculator.astro';
 import Layers from '../components/Layers.astro';
 import Faq from '../components/Faq.astro';
 import Reviews from '../components/Reviews.astro';
-import { MODELS, fmt, minPrice } from '../data/site';
+import { MODELS, fmt, minPrice, modelBySlug } from '../data/site';
 import { faqSchema, itemListSchema } from '../lib/schema';
 const faq = [
   { q: 'Чем ортопедический матрас отличается от обычного?', a: 'Ортопедический матрас поддерживает позвоночник в естественном положении: не прогибается под тяжёлыми частями тела и не давит на плечи. За это отвечают пружинный блок или жёсткие слои вроде кокосовой койры.' },
@@ -21,7 +21,7 @@ const faq = [
 >
   <section class="page-hero wrap">
     <h1 class="page-h">Ортопедические матрасы</h1>
-    <p class="page-lead">Все наши матрасы ортопедические. Разница в жёсткости, наполнении и цене: от {fmt(minPrice())} за эконом-модель до флагмана {MODELS[5].name}.</p>
+    <p class="page-lead">Все наши матрасы ортопедические. Разница в жёсткости, наполнении и цене: от {fmt(minPrice())} за эконом-модель до флагмана {modelBySlug('luxury-king').name}.</p>
     <div class="page-cta"><a class="btn" href="/almaty/">Ортопедические матрасы в Алматы</a><a class="btn btn--ghost" href="/astana/">в Астане</a></div>
   </section>
   <section class="sec sec--tight"><div class="wrap"><Calculator id="calc-o" /></div></section>

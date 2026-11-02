@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { PRODUCTS } from '../data/products';
 import { SITE, CITIES, MODELS, SIZES, SIZE_INFO, fmt, minPrice, FAQ_GENERAL } from '../data/site';
 
 // llms.txt: краткая фактическая выжимка для AI-поисковиков (ChatGPT, Perplexity, Claude, Gemini).
@@ -15,10 +16,13 @@ export const GET: APIRoute = () => {
     `- Instagram: ${SITE.instagram}`,
     `- 2ГИС: ${SITE.twoGis}`,
     '',
-    '## Модели и цены (₸)',
-    ...MODELS.map((m) => `- [${m.name}](${SITE.url}/katalog/${m.slug}/) (${m.tier}): ${m.short} 90×200: ${fmt(m.prices['90x200'])}, 160×200: ${fmt(m.prices['160x200'])}, 180×200: ${fmt(m.prices['180x200'])}.`),
+    '## Матрасы и цены (₸)',
+    ...MODELS.map((m) => `- [${m.name}](${SITE.url}/katalog/${m.slug}/) (${m.tier}): ${m.short} ${Object.entries(m.prices).map(([k, v]) => `${k.replace('x', '×')}: ${fmt(v)}`).join(', ')}.`),
     '',
-    '## Цена по размерам (от)',
+    '## Топперы, наматрасники, подушки',
+    ...PRODUCTS.filter((p) => p.cat !== 'matras').map((p) => `- [${p.name}](${SITE.url}/katalog/${p.slug}/): ${p.short} от ${fmt(Math.min(...Object.values(p.prices)))}.`),
+    '',
+    '## Цена матраса по размерам (от)',
     ...SIZES.map((s) => `- Матрас ${SIZE_INFO[s].label}: от ${fmt(minPrice(s))}. [Алматы](${SITE.url}/almaty/matras-${s}/), [Астана](${SITE.url}/astana/matras-${s}/)`),
     '',
     '## Страницы',

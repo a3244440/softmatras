@@ -18,15 +18,18 @@ const L = SIZE_INFO[s].label;
 const [w, h] = s.split('x');
 const words = `${w} на ${h}`;
 const cityDat = city === 'almaty' ? 'Алматы' : 'Астане';
-const sorted = [...MODELS].sort((a, b) => a.prices[s] - b.prices[s]);
+const avail = MODELS.filter((m) => m.prices[s] !== undefined);
+const sorted = [...avail].sort((a, b) => a.prices[s] - b.prices[s]);
+const popular = avail.find((m) => m.slug === 'prestizh-kokos') || sorted[0];
+const nWord = (n: number) => (n % 10 === 1 && n % 100 !== 11 ? 'модель' : [2, 3, 4].includes(n % 10) && ![12, 13, 14].includes(n % 100) ? 'модели' : 'моделей');
 const min = minPrice(s);
-const max = Math.max(...MODELS.map((m) => m.prices[s]));
+const max = Math.max(...avail.map((m) => m.prices[s]));
 
 const title = `Матрас ${L} купить ${c.in}, цена от ${fmt(min)} | Softmatras`;
-const description = `Ортопедический матрас ${L} (${words}) ${c.in}: ${MODELS.length} моделей от ${fmt(min)} до ${fmt(max)}. Своя фабрика, доставка по ${cityDat} в день заказа бесплатно. Шоурум: ${c.address}.`;
+const description = `Ортопедический матрас ${L} (${words}) ${c.in}: ${avail.length} ${nWord(avail.length)} от ${fmt(min)} до ${fmt(max)}. Своя фабрика, доставка по ${cityDat} в день заказа бесплатно. Шоурум: ${c.address}.`;
 
 const faq = [
-  { q: `Сколько стоит матрас ${L} ${c.in}?`, a: `От ${fmt(min)} за «${sorted[0].name}» до ${fmt(max)} за «${sorted[sorted.length - 1].name}». Самый популярный вариант: «Престиж Кокос» за ${fmt(MODELS[3].prices[s])}.` },
+  { q: `Сколько стоит матрас ${L} ${c.in}?`, a: `От ${fmt(min)} за «${sorted[0].name}» до ${fmt(max)} за «${sorted[sorted.length - 1].name}». Самый популярный вариант: «${popular.name}» за ${fmt(popular.prices[s])}.` },
   { q: `Какой матрас ${words} выбрать?`, a: `${SIZE_INFO[s].who} Если болит спина, берите жёсткую модель с кокосовой койрой (Престиж Кокос). Любите мягко, берите Luxury Memory. Нужен бюджетный вариант, берите Престиж лайт эконом.` },
   { q: `Есть ли матрас ${L} в наличии ${c.in}?`, a: `Размер ${L} стандартный, обычно есть в наличии и доставляется по ${cityDat} в день заказа. Наличие конкретной модели уточните в WhatsApp: ${SITE.phoneHuman}.` },
   { q: `Можно сделать матрас ${w}×${Number(h) + 10} или другой нестандартный?`, a: 'Да, мы производим матрасы сами и шьём любой размер: длиннее, шире, под конкретную кровать. Срок обычно несколько дней.' },
@@ -39,12 +42,12 @@ const others = SIZES.filter((x) => x !== s);
   keywords={`матрас ${s.replace('x', 'х')} ${c.name}, матрас ${words} ${c.name}, матрас ${L} купить, матрасы ${c.name} ${s.replace('x', 'х')}, ортопедический матрас ${L} цена`}
   geo={city}
   crumbs={[{ name: 'Главная', href: '/' }, { name: `Матрасы ${c.in}`, href: `/${city}/` }, { name: `Матрас ${L}`, href: `/${city}/matras-${s}/` }]}
-  schema={[...MODELS.map((m) => productSchema(m, s, city)), faqSchema(faq), storeSchema(city)]}
+  schema={[...avail.map((m) => productSchema(m, s, city)), faqSchema(faq), storeSchema(city)]}
 >
   <section class="sz wrap">
     <h1 class="sz-h"><span class="sz-dim">{L}</span><span class="sz-t">Матрас {words} {c.in}</span></h1>
     <div class="sz-row">
-      <p class="sz-lead">{SIZE_INFO[s].who} {MODELS.length} ортопедических моделей от фабрики Softmatras, от {fmt(min)}. Бесплатная доставка по {cityDat}, вывоз старого матраса и подушки в подарок.</p>
+      <p class="sz-lead">{SIZE_INFO[s].who} {avail.length} {nWord(avail.length)} ортопедических матрасов от фабрики Softmatras, от {fmt(min)}. Бесплатная доставка по {cityDat}, вывоз старого матраса и подушки в подарок.</p>
       <div class="sz-cta">
         <a class="btn btn--pink" href={waLink(`Здравствуйте! Хочу матрас ${L}, город ${c.name}.`)} target="_blank" rel="noopener"><Icon name="wa" /> Заказать {L}</a>
       </div>

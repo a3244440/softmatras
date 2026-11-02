@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+import ProductCard from './ProductCard.astro';
+import Faq from './Faq.astro';
+import Contacts from './Contacts.astro';
+import Icon from './Icon.astro';
+import { CATS, byCat, fromPrice, type Cat } from '../data/products';
+import { fmt, waLink } from '../data/site';
+import { faqSchema, productSchema } from '../lib/schema';
+interface Props { cat: Cat; path: string; title: string; description: string; keywords: string; faq: { q: string; a: string }[]; seo: string; }
+const { cat, path, title, description, keywords, faq, seo } = Astro.props;
+const list = byCat(cat);
+const lo = Math.min(...list.map(fromPrice));
+---
+<Base title={title} description={description} keywords={keywords}
+  crumbs={[{ name: 'Главная', href: '/' }, { name: 'Каталог', href: '/katalog/' }, { name: CATS[cat].name, href: path }]}
+  schema={[...list.map((p) => productSchema(p)), faqSchema(faq)]}>
+  <section class="page-hero wrap">
+    <h1 class="page-h">{CATS[cat].h1} в Алматы и Астане</h1>
+    <p class="page-lead">{CATS[cat].lead} Цены от {fmt(lo)}.</p>
+    <div class="page-cta"><a class="btn btn--pink" href={waLink(`Здравствуйте! Хочу подобрать: ${CATS[cat].many}.`)} target="_blank" rel="noopener"><Icon name="wa" /> Подобрать в WhatsApp</a></div>
+  </section>
+  <section class="sec sec--tight"><div class="wrap">
+    <ul class="cards" role="list">{list.map((p, i) => <li><ProductCard p={p} h="h2" eager={i < 3} /></li>)}</ul>
+  </div></section>
+  <section class="sec sec--tight"><div class="wrap prose" set:html={seo} /></section>
+  <section class="sec sec--tight"><div class="wrap"><h2 class="h2">Вопросы</h2><Faq items={faq} /></div></section>
+  <section class="sec sec--tight"><div class="wrap"><Contacts /></div></section>
+</Base>
