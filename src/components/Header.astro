@@ -33,8 +33,8 @@ const path = Astro.url.pathname;
 </header>
 
 <style>
-  .hd { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); }
-  .hd-in { display: flex; align-items: center; gap: 28px; height: 76px; }
+  .hd { position: relative; z-index: 50; background: var(--bg); }
+  .hd-in { position: relative; z-index: 50; display: flex; align-items: center; gap: 28px; height: 76px; }
   .logo { font-size: 27px; letter-spacing: -0.045em; text-decoration: none; display: inline-flex; align-items: baseline; line-height: 1; margin-right: auto; }
   .logo b { font-weight: 700; }
   .logo i { font-style: normal; font-weight: 300; margin: 0 2px; color: var(--pink); }
@@ -49,13 +49,14 @@ const path = Astro.url.pathname;
   .burger[aria-expanded='true'] span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
   .burger[aria-expanded='true'] span:nth-child(2) { opacity: 0; }
   .burger[aria-expanded='true'] span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-  .menu { position: fixed; inset: 76px 0 0; background: var(--bg); overflow: auto; padding: 24px 0 40px; }
+  .menu { position: fixed; inset: 0; z-index: 49; background: var(--bg); overflow: auto; padding: 100px 0 40px; }
   .menu nav { display: flex; flex-direction: column; }
   .menu nav > a { font-size: clamp(30px, 8vw, 44px); font-weight: 600; letter-spacing: -0.04em; text-decoration: none; padding: 8px 0; }
   .menu-cta { display: grid; gap: 10px; margin-top: 28px; }
   .menu:not([hidden]) { animation: mIn 280ms var(--ease-out); }
   @keyframes mIn { from { opacity: 0; transform: translateY(-8px); } }
   @media (min-width: 1080px) {
+    .hd { position: sticky; top: 0; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: saturate(1.4) blur(14px); -webkit-backdrop-filter: saturate(1.4) blur(14px); }
     .hd-nav, .hd-tel { display: flex; }
     .burger { width: 76px; height: 48px; }
   }
