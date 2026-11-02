@@ -12,7 +12,7 @@ const path = Astro.url.pathname;
 ---
 <header class="hd">
   <div class="hd-in wrap">
-    <a href="/" class="logo" aria-label="Softmatras — на главную"><b>soft</b><i>/</i><span>matras</span></a>
+    <a href="/" class="logo" aria-label="Softmatras, на главную"><b>soft</b><i>/</i><span>matras</span></a>
     <nav class="hd-nav" aria-label="Основное меню">
       {nav.map((n) => <a href={n.href} aria-current={path.startsWith(n.href) ? 'page' : undefined}>{n.t}</a>)}
     </nav>

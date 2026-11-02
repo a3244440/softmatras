@@ -5,14 +5,14 @@ import { MODELS, SIZES, SIZE_INFO, fmt, minPrice } from '../../data/site';
 import { itemListSchema, productSchema } from '../../lib/schema';
 ---
 <Base
-  title={`Каталог ортопедических матрасов — цены от ${fmt(minPrice())} | Softmatras Алматы, Астана`}
+  title={`Каталог ортопедических матрасов: цены от ${fmt(minPrice())} | Softmatras Алматы, Астана`}
   description={`Все модели матрасов Softmatras с ценами по размерам: Престиж лайт эконом, Престиж 2, Престиж 4, Престиж Кокос, Luxury Memory, Премиум Люкс. От ${fmt(minPrice())}, доставка по Алматы и Астане.`}
   crumbs={[{ name: 'Главная', href: '/' }, { name: 'Каталог матрасов', href: '/katalog/' }]}
   schema={[itemListSchema(), ...MODELS.map((m) => productSchema(m))]}
 >
   <section class="page-hero wrap">
     <h1 class="page-h">Каталог матрасов</h1>
-    <p class="page-lead">Шесть ортопедических моделей собственного производства. Каждая — в восьми стандартных размерах и в любом нестандартном на заказ.</p>
+    <p class="page-lead">Шесть ортопедических моделей собственного производства. Каждая есть в восьми стандартных размерах и в любом нестандартном на заказ.</p>
   </section>
   <section class="sec sec--tight">
     <div class="wrap">

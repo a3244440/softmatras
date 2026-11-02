@@ -18,7 +18,7 @@ export const orgSchema = () => ({
 });
 
 export const websiteSchema = () => ({
-  '@type': 'WebSite', '@id': `${U}/#website`, url: `${U}/`, name: 'Softmatras — ортопедические матрасы в Алматы и Астане', inLanguage: 'ru-KZ', publisher: { '@id': `${U}/#org` },
+  '@type': 'WebSite', '@id': `${U}/#website`, url: `${U}/`, name: 'Softmatras: ортопедические матрасы в Алматы и Астане', inLanguage: 'ru-KZ', publisher: { '@id': `${U}/#org` },
 });
 
 export const storeSchema = (city: CityKey) => {
@@ -26,11 +26,11 @@ export const storeSchema = (city: CityKey) => {
   const s: any = {
     '@type': ['MattressStore', 'LocalBusiness'],
     '@id': `${U}/${city}/#store`,
-    name: `Softmatras ${c.name} — матрасы ${c.in}`,
+    name: `Softmatras ${c.name}, матрасы ${c.in}`,
     url: `${U}/${city}/`,
     image: `${U}/img/matras-astana-zakat.jpg`,
     telephone: SITE.phone,
-    priceRange: '49 900 – 278 000 ₸',
+    priceRange: '49 900-278 000 ₸',
     currenciesAccepted: 'KZT',
     parentOrganization: { '@id': `${U}/#org` },
     address: { '@type': 'PostalAddress', streetAddress: c.address, addressLocality: c.name, addressRegion: c.region, addressCountry: 'KZ', ...(c.postal ? { postalCode: c.postal } : {}) },

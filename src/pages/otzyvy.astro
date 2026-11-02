@@ -6,14 +6,14 @@ import { REVIEWS, SITE } from '../data/site';
 import { reviewNode } from '../lib/schema';
 ---
 <Base
-  title={`Отзывы о Softmatras — ${SITE.rating} в 2ГИС, ${SITE.ratingCount} оценок | Матрасы Алматы и Астана`}
+  title={`Отзывы о Softmatras: ${SITE.rating} в 2ГИС, ${SITE.ratingCount} оценок | Матрасы Алматы и Астана`}
   description={`Реальные отзывы покупателей матрасов Softmatras из 2ГИС: рейтинг ${SITE.rating} из 5 по ${SITE.ratingCount} оценкам. Отзывы о Престиж Кокос, Luxury Memory, матрасах на заказ и доставке.`}
   crumbs={[{ name: 'Главная', href: '/' }, { name: 'Отзывы', href: '/otzyvy/' }]}
   schema={[{ '@type': 'WebPage', name: 'Отзывы о Softmatras', about: { '@id': `${SITE.url}/#org` }, review: REVIEWS.map(reviewNode) }]}
 >
   <section class="page-hero wrap">
     <h1 class="page-h">Отзывы покупателей</h1>
-    <p class="page-lead">Все отзывы ниже — настоящие, из 2ГИС. Мы ничего не редактировали. Оригиналы и полный список, включая критику, — <a class="link" href={SITE.twoGisReviews} target="_blank" rel="noopener">на странице Softmatras в 2ГИС</a>.</p>
+    <p class="page-lead">Все отзывы ниже настоящие, из 2ГИС. Мы ничего не редактировали. Оригиналы и полный список, включая критику, смотрите <a class="link" href={SITE.twoGisReviews} target="_blank" rel="noopener">на странице Softmatras в 2ГИС</a>.</p>
   </section>
   <section class="sec sec--tight"><div class="wrap"><Reviews limit={REVIEWS.length} /></div></section>
   <section class="sec sec--dark on-dark">

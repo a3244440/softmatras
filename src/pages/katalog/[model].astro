@@ -14,8 +14,8 @@ const lo = Math.min(...Object.values(m.prices));
 const others = MODELS.filter((x) => x.slug !== m.slug);
 ---
 <Base
-  title={`Матрас ${m.name} — цена от ${fmt(lo)}, купить в Алматы и Астане | Softmatras`}
-  description={`Ортопедический матрас ${m.name}: ${m.short} Цены: 90×200 — ${fmt(m.prices['90x200'])}, 160×200 — ${fmt(m.prices['160x200'])}, 180×200 — ${fmt(m.prices['180x200'])}. Доставка по Алматы и Астане бесплатно.`}
+  title={`Матрас ${m.name}: цена от ${fmt(lo)}, купить в Алматы и Астане | Softmatras`}
+  description={`Ортопедический матрас ${m.name}: ${m.short} Цены: 90×200 от ${fmt(m.prices['90x200'])}, 160×200 от ${fmt(m.prices['160x200'])}, 180×200 от ${fmt(m.prices['180x200'])}. Доставка по Алматы и Астане бесплатно.`}
   crumbs={[{ name: 'Главная', href: '/' }, { name: 'Каталог', href: '/katalog/' }, { name: m.name, href: `/katalog/${m.slug}/` }]}
   schema={[productSchema(m)]}
 >

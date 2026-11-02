@@ -11,7 +11,7 @@ import Icon from '../components/Icon.astro';
 import { SITE, FAQ_GENERAL, SIZES, SIZE_INFO, MODELS, fmt, minPrice, waLink } from '../data/site';
 import { storeSchema, faqSchema, videoSchemas, itemListSchema } from '../lib/schema';
 
-const title = 'Ортопедические матрасы в Алматы и Астане от фабрики — Softmatras';
+const title = 'Ортопедические матрасы в Алматы и Астане от фабрики | Softmatras';
 const description = `Купить ортопедический матрас в Алматы и Астане от ${fmt(minPrice())}. Своя фабрика, любой размер на заказ (160×200, 180×200, 140×200), доставка день в день бесплатно, подушки в подарок. Рейтинг ${SITE.rating} в 2ГИС.`;
 ---
 <Base
@@ -22,10 +22,10 @@ const description = `Купить ортопедический матрас в �
 >
   <section class="hero wrap">
     <p class="hero-kicker rv">Фабрика матрасов с {SITE.foundingYear} года. Алматы и Астана.</p>
-    <h1 class="hero-h rv">Ортопедические матрасы <span class="hero-h2">от фабрики — в Алматы и Астане</span></h1>
+    <h1 class="hero-h rv">Ортопедические матрасы <span class="hero-h2">от фабрики в Алматы и Астане</span></h1>
     <div class="hero-grid">
       <div class="hero-copy rv">
-        <p class="hero-lead">Шьём сами, поэтому без переплаты за бренд и салон. Любой размер — даже 160×230. Привезём в день заказа, заберём старый матрас и подарим подушки.</p>
+        <p class="hero-lead">Шьём сами, поэтому без переплаты за бренд и салон. Любой размер, даже 160×230. Привезём в день заказа, заберём старый матрас и подарим подушки.</p>
         <div class="hero-cta">
           <a class="btn btn--pink" href={waLink('Здравствуйте! Хочу подобрать ортопедический матрас.')} target="_blank" rel="noopener"><Icon name="wa" /> Подобрать в WhatsApp</a>
           <a class="btn btn--ghost" href="#calc">Цены по размерам</a>
@@ -51,8 +51,8 @@ const description = `Купить ортопедический матрас в �
     <div class="wrap">
       <header class="sec-head">
         <span class="sec-num">(01)</span>
-        <h2 class="sec-title" id="calc-h">Цена за ваш размер — сразу</h2>
-        <p class="sec-lead">Выберите город и размер кровати: цены всех моделей пересчитаются. Понравилась модель — отправьте заказ в WhatsApp одной кнопкой.</p>
+        <h2 class="sec-title" id="calc-h">Цена за ваш размер сразу</h2>
+        <p class="sec-lead">Выберите город и размер кровати: цены всех моделей пересчитаются. Понравилась модель? Отправьте заказ в WhatsApp одной кнопкой.</p>
       </header>
       <Calculator />
     </div>
@@ -66,7 +66,7 @@ const description = `Купить ортопедический матрас в �
         <p class="sec-lead">Три коротких ролика из нашего Instagram: реакция прохожих в Астане, разбор матраса до последнего слоя и отельный матрас по акции.</p>
       </header>
       <Videos />
-      <p class="vid-more"><a class="btn btn--light" href={SITE.instagram} target="_blank" rel="noopener"><Icon name="ig" /> Больше в Instagram — {SITE.followers} подписчиков</a></p>
+      <p class="vid-more"><a class="btn btn--light" href={SITE.instagram} target="_blank" rel="noopener"><Icon name="ig" /> Больше в Instagram: {SITE.followers} подписчиков</a></p>
     </div>
   </section>
 
@@ -106,8 +106,8 @@ const description = `Купить ортопедический матрас в �
     <div class="wrap seo">
       <div class="prose">
         <h2 id="seo-h">Матрасы в Алматы и Астане по цене производителя</h2>
-        <p>Softmatras — казахстанская фабрика ортопедических матрасов. С {SITE.foundingYear} года мы шьём матрасы для квартир, детских, гостиниц и съёмного жилья и продаём их напрямую, без дистрибьюторов. Поэтому ортопедический матрас 160×200 у нас стоит от {fmt(minPrice('160x200'))}, а 180×200 — от {fmt(minPrice('180x200'))}.</p>
-        <p>В линейке шесть моделей — от недорогого «Престиж лайт эконом» до флагмана «Премиум Люкс». Есть жёсткие матрасы с кокосовой койрой для тех, у кого болит спина, мягкие модели с пеной memory и двусторонние матрасы с разной жёсткостью сторон. Любую модель сошьём в нестандартный размер.</p>
+        <p>Softmatras это казахстанская фабрика ортопедических матрасов. С {SITE.foundingYear} года мы шьём матрасы для квартир, детских, гостиниц и съёмного жилья и продаём их напрямую, без дистрибьюторов. Поэтому ортопедический матрас 160×200 у нас стоит от {fmt(minPrice('160x200'))}, а 180×200 от {fmt(minPrice('180x200'))}.</p>
+        <p>В линейке шесть моделей: от недорогого «Престиж лайт эконом» до флагмана «Премиум Люкс». Есть жёсткие матрасы с кокосовой койрой для тех, у кого болит спина, мягкие модели с пеной memory и двусторонние матрасы с разной жёсткостью сторон. Любую модель сошьём в нестандартный размер.</p>
         <h3>Популярные размеры</h3>
       </div>
       <div class="size-links">

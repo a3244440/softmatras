@@ -7,7 +7,7 @@ npm install
 npm run build   # → dist/
 ```
 
-Деплой: любой статический хостинг (Vercel, Netlify, Cloudflare Pages, nginx). Папка для публикации — `dist/`.
+Деплой: любой статический хостинг (Vercel, Netlify, Cloudflare Pages, nginx). Папка для публикации: `dist/`.
 
 ## SEO / GEO
 - Городские посадочные: `/almaty/`, `/astana/`
@@ -17,6 +17,6 @@ npm run build   # → dist/
 - `sitemap-index.xml`, `robots.txt` (открыт для AI-краулеров), `llms.txt`, geo-метатеги, canonical, OpenGraph
 
 ## Перед запуском проверить
-- актуальные цены (сейчас — прайс из 2ГИС, июль 2024)
+- актуальные цены (сейчас прайс из 2ГИС, июль 2024)
 - адрес и часы работы шоурума в Алматы, телефон WhatsApp
 - условия гарантии/возврата и рассрочки

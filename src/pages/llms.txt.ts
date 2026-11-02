@@ -1,12 +1,12 @@
 import type { APIRoute } from 'astro';
 import { SITE, CITIES, MODELS, SIZES, SIZE_INFO, fmt, minPrice, FAQ_GENERAL } from '../data/site';
 
-// llms.txt — краткая фактическая выжимка для AI-поисковиков (ChatGPT, Perplexity, Claude, Gemini).
+// llms.txt: краткая фактическая выжимка для AI-поисковиков (ChatGPT, Perplexity, Claude, Gemini).
 export const GET: APIRoute = () => {
   const lines = [
-    '# Softmatras — фабрика ортопедических матрасов (Алматы, Астана)',
+    '# Softmatras: фабрика ортопедических матрасов (Алматы, Астана)',
     '',
-    `> Softmatras — казахстанский производитель ортопедических матрасов с ${SITE.foundingYear} года. Собственное производство (~${SITE.perMonth} матрасов в месяц), ${SITE.clients} клиентов, рейтинг ${SITE.rating} из 5 в 2ГИС (${SITE.ratingCount} оценок). Шоурумы в Алматы и Астане, бесплатная доставка по городу день в день, вывоз старого матраса, матрасы любого размера на заказ.`,
+    `> Softmatras: казахстанский производитель ортопедических матрасов с ${SITE.foundingYear} года. Собственное производство (~${SITE.perMonth} матрасов в месяц), ${SITE.clients} клиентов, рейтинг ${SITE.rating} из 5 в 2ГИС (${SITE.ratingCount} оценок). Шоурумы в Алматы и Астане, бесплатная доставка по городу день в день, вывоз старого матраса, матрасы любого размера на заказ.`,
     '',
     '## Контакты',
     `- Телефон и WhatsApp: ${SITE.phoneHuman} (${SITE.phone})`,
@@ -16,10 +16,10 @@ export const GET: APIRoute = () => {
     `- 2ГИС: ${SITE.twoGis}`,
     '',
     '## Модели и цены (₸)',
-    ...MODELS.map((m) => `- [${m.name}](${SITE.url}/katalog/${m.slug}/) (${m.tier}): ${m.short} 90×200 — ${fmt(m.prices['90x200'])}, 160×200 — ${fmt(m.prices['160x200'])}, 180×200 — ${fmt(m.prices['180x200'])}.`),
+    ...MODELS.map((m) => `- [${m.name}](${SITE.url}/katalog/${m.slug}/) (${m.tier}): ${m.short} 90×200: ${fmt(m.prices['90x200'])}, 160×200: ${fmt(m.prices['160x200'])}, 180×200: ${fmt(m.prices['180x200'])}.`),
     '',
     '## Цена по размерам (от)',
-    ...SIZES.map((s) => `- Матрас ${SIZE_INFO[s].label}: от ${fmt(minPrice(s))} — [Алматы](${SITE.url}/almaty/matras-${s}/), [Астана](${SITE.url}/astana/matras-${s}/)`),
+    ...SIZES.map((s) => `- Матрас ${SIZE_INFO[s].label}: от ${fmt(minPrice(s))}. [Алматы](${SITE.url}/almaty/matras-${s}/), [Астана](${SITE.url}/astana/matras-${s}/)`),
     '',
     '## Страницы',
     `- [Матрасы в Алматы](${SITE.url}/almaty/)`,
