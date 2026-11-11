@@ -99,9 +99,9 @@ const geoMeta = geo === 'astana'
       };
       walk(el);
     };
-    const splitSel = '.sky-word, .sec-title, .page-h, .cty-h, .sz-t, .pd-h, .ft-big, .h2, .sz-h2';
+    const splitSel = '.vh-big, .sec-title, .page-h, .cty-h, .sz-t, .pd-h, .ft-big, .h2, .sz-h2';
     document.querySelectorAll(splitSel).forEach((el) => { el.setAttribute('data-split', ''); split(el); });
-    document.querySelectorAll('.hero-media, .ly-photo').forEach((el) => el.classList.add('reveal-img'));
+    document.querySelectorAll('.vh-media, .ly-photo').forEach((el) => el.classList.add('reveal-img'));
     document.querySelectorAll('.panel').forEach((el) => el.classList.add('rise'));
 
     // 2. Появление по скроллу

@@ -20,37 +20,21 @@ const description = `Купить ортопедический матрас в �
   keywords="матрасы Алматы, матрасы Астана, ортопедический матрас купить, матрас 160х200, матрас 180х200, матрасы на заказ, купить матрас недорого"
   schema={[storeSchema('almaty'), storeSchema('astana'), faqSchema(FAQ_GENERAL), itemListSchema(), ...videoSchemas()]}
 >
-  <section class="sky" aria-labelledby="sky-h">
-    <p class="sky-top load-in" style="--d:100ms">Фабрика Softmatras <span>|</span> Алматы<b class="long" style="font-weight:inherit">, пр. Гагарина, 244А</b> <span>|</span> Астана<b class="long" style="font-weight:inherit">, ул. Достык, 3</b></p>
-    <h1 class="sky-h" id="sky-h">
-      <span class="sky-pill load-in" style="--d:250ms">Вы заслуживаете</span>
-      <span class="sky-word">выспаться</span>
-      <span class="sky-sub load-in" style="--d:900ms"><em>Ортопедические матрасы от фабрики</em> <b>в Алматы и Астане.</b></span>
-    </h1>
-    <div class="sky-art" data-parallax>
-      <div class="sky-float">
-        <svg class="cloud cloud--back" viewBox="0 0 1000 420" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
-          <defs>
-            <filter id="fluff" x="-20%" y="-40%" width="140%" height="180%">
-              <feTurbulence type="fractalNoise" baseFrequency="0.011" numOctaves="4" seed="11" result="n" />
-              <feDisplacementMap in="SourceGraphic" in2="n" scale="70" xChannelSelector="R" yChannelSelector="G" result="d" />
-              <feGaussianBlur in="d" stdDeviation="5" />
-            </filter>
-            <radialGradient id="cloudLight" cx="45%" cy="25%" r="75%"><stop offset="0" stop-color="#ffffff" /><stop offset=".55" stop-color="#f6f9fd" /><stop offset="1" stop-color="#d9e6f3" /></radialGradient>
-          </defs>
-          <g filter="url(#fluff)" fill="#b9cde3" opacity=".9"><ellipse cx="200" cy="300" rx="170" ry="80"/><ellipse cx="420" cy="330" rx="260" ry="70"/><ellipse cx="680" cy="320" rx="230" ry="75"/><ellipse cx="860" cy="290" rx="130" ry="60"/></g>
-          <g filter="url(#fluff)" fill="url(#cloudLight)"><ellipse cx="170" cy="250" rx="150" ry="95"/><ellipse cx="330" cy="200" rx="170" ry="125"/><ellipse cx="520" cy="175" rx="200" ry="140"/><ellipse cx="700" cy="205" rx="170" ry="120"/><ellipse cx="850" cy="250" rx="140" ry="90"/><ellipse cx="260" cy="300" rx="200" ry="80"/><ellipse cx="600" cy="300" rx="260" ry="90"/><ellipse cx="470" cy="320" rx="300" ry="70"/></g>
-        </svg>
-        <picture class="sky-matras">
-          <source srcset="/img/hero-matras.webp" type="image/webp" />
-          <img src="/img/hero-matras.png" width="611" height="400" fetchpriority="high" decoding="async" alt="Ортопедический матрас Softmatras Престиж Кокос в разрезе: пружины и кокосовая койра" />
-        </picture>
-        <svg class="cloud cloud--front" viewBox="0 0 1000 240" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
-          <g filter="url(#fluff)" fill="url(#cloudLight)"><ellipse cx="120" cy="120" rx="110" ry="70"/><ellipse cx="300" cy="135" rx="150" ry="75"/><ellipse cx="500" cy="140" rx="170" ry="70"/><ellipse cx="700" cy="130" rx="150" ry="72"/><ellipse cx="880" cy="115" rx="110" ry="65"/></g>
-        </svg>
-      </div>
+  <section class="vh" aria-labelledby="vh-h">
+    <div class="vh-copy">
+      <p class="vh-kicker load-in" style="--d:0ms">Фабрика Softmatras <span>|</span> Алматы <span>|</span> Астана</p>
+      <h1 class="vh-h" id="vh-h"><span class="vh-big">Просыпайтесь</span> <span class="vh-big vh-accent">отдохнувшими</span> <span class="vh-small">Ортопедические матрасы от фабрики в Алматы и Астане</span></h1>
     </div>
-    <a class="sky-logo load-in" style="--d:1100ms" href="#calc" aria-label="Перейти к ценам"><b>soft</b><i>/</i><span>matras</span></a>
+    <figure class="vh-media" data-parallax>
+      <video class="vh-video" src="/video/hero-son-na-trave.mp4" poster="/img/hero-poster.jpg" autoplay muted loop playsinline preload="metadata" aria-label="Девушка просыпается в белой кровати посреди зелёной травы, вид сверху"></video>
+      <button class="vh-sound" type="button" aria-pressed="false" aria-label="Включить звук">
+        <span class="vh-ring" aria-hidden="true"></span>
+        <svg class="i-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path d="M17 9l4 6M21 9l-4 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+        <svg class="i-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4z" fill="currentColor"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+        <b class="vh-sound-t">Включить звук</b>
+      </button>
+      <span class="vh-progress" aria-hidden="true"><i></i></span>
+    </figure>
   </section>
 
   <section class="intro wrap" aria-label="Коротко о Softmatras">
@@ -169,48 +153,56 @@ const description = `Купить ортопедический матрас в �
   </section>
 </Base>
 
+<script>
+  const v = document.querySelector<HTMLVideoElement>('.vh-video');
+  const btn = document.querySelector<HTMLButtonElement>('.vh-sound');
+  const bar = document.querySelector<HTMLElement>('.vh-progress i');
+  if (v && btn) {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) { v.removeAttribute('autoplay'); v.pause(); }
+    btn.addEventListener('click', () => {
+      const on = v.muted;
+      v.muted = !on;
+      if (on) { v.currentTime = 0; v.volume = 1; v.play(); }
+      btn.setAttribute('aria-pressed', String(on));
+      btn.setAttribute('aria-label', on ? 'Выключить звук' : 'Включить звук');
+      btn.querySelector('.vh-sound-t')!.textContent = on ? 'Звук включён' : 'Включить звук';
+    });
+    const tick = () => { if (bar && v.duration) bar.style.transform = `scaleX(${v.currentTime / v.duration})`; requestAnimationFrame(tick); };
+    requestAnimationFrame(tick);
+    // Звук выключаем, когда видео ушло с экрана
+    new IntersectionObserver(([e]) => { if (!e.isIntersecting && !v.muted) btn.click(); }, { threshold: 0.2 }).observe(v);
+  }
+</script>
+
 <style>
-  /* ===== Первый экран по референсу: небо, огромное слово, матрас на облаке ===== */
-  .sky {
-    --navy: #0b1446;
-    --ws: clamp(64px, 17vw, 270px);
-    position: relative; overflow: hidden; isolation: isolate;
-    margin: 0 clamp(8px, 1.4vw, 20px); border-radius: var(--r-lg);
-    min-height: clamp(600px, calc(100svh - 96px), 980px);
-    background: linear-gradient(180deg, #8fb2da 0%, #a9c7e7 38%, #c4dcf2 70%, #d9ebf8 100%);
-    color: var(--navy); text-align: center;
-    display: flex; flex-direction: column; align-items: center;
-    padding: clamp(18px, 2.4vw, 32px) 0 clamp(18px, 2.4vw, 30px);
-  }
-  .sky::before { content: ''; position: absolute; inset: 0; z-index: -1; background: radial-gradient(60% 45% at 50% 62%, rgba(255,255,255,.55), transparent 70%); }
-  .sky-top { padding: 0 16px; font-size: clamp(10px, 1vw, 13px); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--navy); opacity: .85; }
-  .sky-top span { margin: 0 .6em; opacity: .5; }
-  .sky-h { position: relative; width: 100%; margin-top: clamp(48px, 10vh, 130px); line-height: 1; letter-spacing: 0; font-weight: 400; }
-  .sky-pill { display: inline-block; position: relative; left: -10%; background: var(--navy); color: #fff; font-size: calc(var(--ws) * 0.11); font-weight: 500; text-transform: uppercase; letter-spacing: 0.01em; padding: .22em .5em; line-height: 1.1; margin-bottom: calc(var(--ws) * -0.04); }
-  .sky-word { position: relative; z-index: 1; display: block; font-size: var(--ws); font-weight: 800; letter-spacing: -0.055em; line-height: .9; color: var(--navy); white-space: nowrap; }
-  .sky-sub { position: absolute; right: 8%; bottom: calc(var(--ws) * -1.45); z-index: 3; text-align: left; font-size: clamp(15px, 1.7vw, 24px); line-height: 1.15; letter-spacing: -0.01em; }
-  .sky-sub em { font-style: italic; font-weight: 500; display: block; }
-  .sky-sub b { font-style: italic; font-weight: 800; display: block; }
-  .sky-art { position: relative; z-index: 2; width: min(980px, 72%); margin-top: calc(var(--ws) * -0.62); pointer-events: none; }
-  .sky-float { position: relative; padding-top: 8%; animation: floatY 7s ease-in-out infinite alternate; }
-  .cloud { display: block; width: 100%; height: auto; }
-  .cloud--back { position: relative; filter: drop-shadow(0 30px 40px rgba(40, 70, 120, .18)); }
-  .sky-matras { position: absolute; left: 50%; top: 0; width: 52%; translate: -52% 0; animation: floatY 5.5s ease-in-out infinite alternate-reverse; }
-  .sky-matras img { width: 100%; height: auto; filter: drop-shadow(0 22px 22px rgba(20, 40, 80, .28)); }
-  .cloud--front { position: absolute; left: 16%; width: 68%; top: 52%; opacity: .96; }
-  .sky-logo { position: relative; z-index: 3; margin-top: auto; text-decoration: none; color: var(--navy); font-size: clamp(22px, 2.2vw, 32px); letter-spacing: -0.045em; }
-  .sky-logo b { font-weight: 700; } .sky-logo i { font-style: normal; font-weight: 300; color: var(--pink); margin: 0 2px; } .sky-logo span { font-weight: 350; }
-  @keyframes floatY { from { transform: translate3d(0, -8px, 0); } to { transform: translate3d(0, 10px, 0); } }
-  @media (max-width: 760px) {
-    .sky { --ws: 17.2vw; min-height: 0; }
-    .sky-logo { margin-top: 30vw; }
-    .sky-top .long { display: none; }
-    .sky-h { margin-top: clamp(64px, 14vh, 130px); }
-    .sky-pill { left: -6%; font-size: 13px; }
-    .sky-art { width: 150%; margin-top: calc(var(--ws) * -0.5); }
-    .sky-sub { right: 6%; bottom: auto; top: calc(100% + 78vw); font-size: 16px; }
-  }
-  @media (prefers-reduced-motion: reduce) { .sky-float, .sky-matras { animation: none; } }
+  /* ===== Первый экран: видео со звуком ===== */
+  .vh { position: relative; display: grid; gap: clamp(24px, 4vw, 64px); align-items: center; padding: clamp(20px, 4vw, 56px) var(--gutter) 0; max-width: var(--max); margin: 0 auto; }
+  @media (min-width: 960px) { .vh { grid-template-columns: 1.15fr 0.85fr; min-height: calc(100svh - 96px); padding-bottom: 24px; } }
+  .vh-kicker { white-space: nowrap; font-size: clamp(11px, 1vw, 14px); font-weight: 600; letter-spacing: .05em; text-transform: uppercase; color: var(--ink-2); margin-bottom: clamp(16px, 2.4vw, 28px); }
+  .vh-kicker span { margin: 0 .5em; opacity: .4; }
+  .vh-h { font-weight: 400; letter-spacing: 0; line-height: 1; }
+  .vh-copy { container-type: inline-size; min-width: 0; }
+  .vh-big { display: block; font-size: 14.6cqw; font-weight: 700; letter-spacing: -0.06em; line-height: .88; }
+  .vh-accent { color: var(--pink); font-style: italic; font-weight: 600; letter-spacing: -0.05em; padding-right: .06em; }
+  .vh-small { display: block; margin-top: clamp(18px, 2.4vw, 32px); font-size: clamp(19px, 1.9vw, 26px); font-weight: 500; letter-spacing: -0.02em; line-height: 1.25; color: var(--ink-2); max-width: 24ch; }
+  .vh-media { position: relative; margin: 0; justify-self: center; width: min(100%, 470px); aspect-ratio: 9 / 16; border-radius: var(--r-lg); overflow: hidden; background: #3d5a2c; box-shadow: 0 40px 80px -40px rgba(30, 60, 20, .55); }
+  @media (min-width: 960px) { .vh-media { width: auto; height: min(calc(100svh - 150px), 820px); justify-self: end; } }
+  @media (max-width: 959px) { .vh-media { width: 100%; aspect-ratio: 4 / 5; } }
+  .vh-video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .vh-sound { position: absolute; left: 16px; bottom: 22px; z-index: 2; display: inline-flex; align-items: center; gap: 10px; padding: 8px 18px 8px 8px; border: 0; border-radius: var(--r-pill); background: rgba(255,255,255,.92); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: var(--ink); font-weight: 600; font-size: 15px; cursor: pointer; transition: transform 180ms var(--ease-out), background-color 200ms; }
+  .vh-sound:active { transform: scale(0.96); }
+  .vh-sound svg { width: 40px; height: 40px; padding: 9px; border-radius: 50%; background: var(--pink); color: #fff; flex: none; position: relative; z-index: 1; }
+  .vh-sound .i-on { display: none; }
+  .vh-sound[aria-pressed='true'] .i-on { display: block; }
+  .vh-sound[aria-pressed='true'] .i-off { display: none; }
+  .vh-ring { position: absolute; left: 8px; top: 8px; width: 40px; height: 40px; border-radius: 50%; background: var(--pink); animation: ring 1.8s var(--ease-out) infinite; }
+  .vh-sound[aria-pressed='true'] .vh-ring { display: none; }
+  @keyframes ring { from { transform: scale(1); opacity: .55; } to { transform: scale(2.1); opacity: 0; } }
+  .vh-progress { position: absolute; left: 16px; right: 16px; bottom: 10px; height: 3px; border-radius: 3px; background: rgba(255,255,255,.35); overflow: hidden; z-index: 2; }
+  .vh-progress i { display: block; height: 100%; width: 100%; background: #fff; transform-origin: 0 50%; transform: scaleX(0); }
+  :global(.js) .vh-small { animation: loadIn 1000ms var(--ease-out) 700ms both; }
+  :global(.js) .vh-sound { animation: loadIn 900ms var(--ease-out) 1200ms both; }
+  @media (prefers-reduced-motion: reduce) { .vh-ring { animation: none; } :global(.js) .vh-small, :global(.js) .vh-sound { animation: none; } }
 
   .intro { display: grid; gap: 36px; padding-top: clamp(40px, 6vw, 80px); padding-bottom: clamp(20px, 3vw, 40px); align-items: end; }
   @media (min-width: 1000px) { .intro { grid-template-columns: 1fr 1fr; gap: 64px; } }
