@@ -99,7 +99,7 @@ const geoMeta = geo === 'astana'
       };
       walk(el);
     };
-    const splitSel = '.hero-h, .sec-title, .page-h, .cty-h, .sz-t, .pd-h, .ft-big, .h2, .sz-h2';
+    const splitSel = '.sky-word, .sec-title, .page-h, .cty-h, .sz-t, .pd-h, .ft-big, .h2, .sz-h2';
     document.querySelectorAll(splitSel).forEach((el) => { el.setAttribute('data-split', ''); split(el); });
     document.querySelectorAll('.hero-media, .ly-photo').forEach((el) => el.classList.add('reveal-img'));
     document.querySelectorAll('.panel').forEach((el) => el.classList.add('rise'));

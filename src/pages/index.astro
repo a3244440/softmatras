@@ -20,31 +20,54 @@ const description = `Купить ортопедический матрас в �
   keywords="матрасы Алматы, матрасы Астана, ортопедический матрас купить, матрас 160х200, матрас 180х200, матрасы на заказ, купить матрас недорого"
   schema={[storeSchema('almaty'), storeSchema('astana'), faqSchema(FAQ_GENERAL), itemListSchema(), ...videoSchemas()]}
 >
-  <section class="hero wrap">
-    <p class="hero-kicker load-in" style="--d:0ms">Фабрика матрасов с {SITE.foundingYear} года. Алматы и Астана.</p>
-    <h1 class="hero-h">Ортопедические матрасы <span class="hero-h2">от фабрики в Алматы и Астане</span></h1>
-    <div class="hero-grid">
-      <div class="hero-copy load-in" style="--d:450ms">
-        <p class="hero-lead">Шьём сами, поэтому без переплаты за бренд и салон. Любой размер, даже 160×230. Привезём в день заказа, заберём старый матрас и подарим подушки.</p>
-        <div class="hero-cta">
-          <a class="btn btn--pink" href={waLink('Здравствуйте! Хочу подобрать ортопедический матрас.')} target="_blank" rel="noopener"><Icon name="wa" /> Подобрать в WhatsApp</a>
-          <a class="btn btn--ghost" href="#calc">Цены по размерам</a>
-        </div>
-        <dl class="stats">
-          <div><dt>лет производим матрасы</dt><dd>{SITE.years}</dd></div>
-          <div><dt>клиентов</dt><dd>{SITE.clients}</dd></div>
-          <div><dt>рейтинг в 2ГИС</dt><dd>{String(SITE.rating).replace('.', ',')}</dd></div>
-          <div><dt>матрасов в месяц</dt><dd>{SITE.perMonth}</dd></div>
-        </dl>
-      </div>
-      <figure class="hero-media" data-parallax>
-        <picture>
-          <source srcset="/img/matras-astana-zakat.webp" type="image/webp" />
-          <img src="/img/matras-astana-zakat.jpg" width="720" height="1000" fetchpriority="high" decoding="async" alt="Мама с дочкой тестируют матрас Softmatras на набережной в Астане на закате" />
+  <section class="sky" aria-labelledby="sky-h">
+    <p class="sky-top load-in" style="--d:100ms">Фабрика Softmatras <span>|</span> Алматы<b class="long" style="font-weight:inherit">, пр. Гагарина, 244А</b> <span>|</span> Астана<b class="long" style="font-weight:inherit">, ул. Достык, 3</b></p>
+    <h1 class="sky-h" id="sky-h">
+      <span class="sky-pill load-in" style="--d:250ms">Вы заслуживаете</span>
+      <span class="sky-word">выспаться</span>
+      <span class="sky-sub load-in" style="--d:900ms"><em>Ортопедические матрасы от фабрики</em> <b>в Алматы и Астане.</b></span>
+    </h1>
+    <div class="sky-art" data-parallax>
+      <div class="sky-float">
+        <svg class="cloud cloud--back" viewBox="0 0 1000 420" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+          <defs>
+            <filter id="fluff" x="-20%" y="-40%" width="140%" height="180%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.011" numOctaves="4" seed="11" result="n" />
+              <feDisplacementMap in="SourceGraphic" in2="n" scale="70" xChannelSelector="R" yChannelSelector="G" result="d" />
+              <feGaussianBlur in="d" stdDeviation="5" />
+            </filter>
+            <radialGradient id="cloudLight" cx="45%" cy="25%" r="75%"><stop offset="0" stop-color="#ffffff" /><stop offset=".55" stop-color="#f6f9fd" /><stop offset="1" stop-color="#d9e6f3" /></radialGradient>
+          </defs>
+          <g filter="url(#fluff)" fill="#b9cde3" opacity=".9"><ellipse cx="200" cy="300" rx="170" ry="80"/><ellipse cx="420" cy="330" rx="260" ry="70"/><ellipse cx="680" cy="320" rx="230" ry="75"/><ellipse cx="860" cy="290" rx="130" ry="60"/></g>
+          <g filter="url(#fluff)" fill="url(#cloudLight)"><ellipse cx="170" cy="250" rx="150" ry="95"/><ellipse cx="330" cy="200" rx="170" ry="125"/><ellipse cx="520" cy="175" rx="200" ry="140"/><ellipse cx="700" cy="205" rx="170" ry="120"/><ellipse cx="850" cy="250" rx="140" ry="90"/><ellipse cx="260" cy="300" rx="200" ry="80"/><ellipse cx="600" cy="300" rx="260" ry="90"/><ellipse cx="470" cy="320" rx="300" ry="70"/></g>
+        </svg>
+        <picture class="sky-matras">
+          <source srcset="/img/hero-matras.webp" type="image/webp" />
+          <img src="/img/hero-matras.png" width="611" height="400" fetchpriority="high" decoding="async" alt="Ортопедический матрас Softmatras Престиж Кокос в разрезе: пружины и кокосовая койра" />
         </picture>
-        <a class="hero-play" href="#video"><span><Icon name="play" /></span> Реакция людей на наш матрас</a>
-      </figure>
+        <svg class="cloud cloud--front" viewBox="0 0 1000 240" aria-hidden="true" preserveAspectRatio="xMidYMid meet">
+          <g filter="url(#fluff)" fill="url(#cloudLight)"><ellipse cx="120" cy="120" rx="110" ry="70"/><ellipse cx="300" cy="135" rx="150" ry="75"/><ellipse cx="500" cy="140" rx="170" ry="70"/><ellipse cx="700" cy="130" rx="150" ry="72"/><ellipse cx="880" cy="115" rx="110" ry="65"/></g>
+        </svg>
+      </div>
     </div>
+    <a class="sky-logo load-in" style="--d:1100ms" href="#calc" aria-label="Перейти к ценам"><b>soft</b><i>/</i><span>matras</span></a>
+  </section>
+
+  <section class="intro wrap" aria-label="Коротко о Softmatras">
+    <div class="intro-copy">
+      <p class="hero-lead">Шьём сами, поэтому без переплаты за бренд и салон. Любой размер, даже 160×230. Привезём в день заказа, заберём старый матрас и подарим подушки.</p>
+      <div class="hero-cta">
+        <a class="btn btn--pink" href={waLink('Здравствуйте! Хочу подобрать ортопедический матрас.')} target="_blank" rel="noopener"><Icon name="wa" /> Подобрать в WhatsApp</a>
+        <a class="btn btn--ghost" href="#calc">Цены по размерам</a>
+        <a class="btn btn--ghost" href="#video"><Icon name="play" /> Реакция людей</a>
+      </div>
+    </div>
+    <dl class="stats">
+      <div><dt>лет производим матрасы</dt><dd>{SITE.years}</dd></div>
+      <div><dt>клиентов</dt><dd>{SITE.clients}</dd></div>
+      <div><dt>рейтинг в 2ГИС</dt><dd>{String(SITE.rating).replace('.', ',')}</dd></div>
+      <div><dt>матрасов в месяц</dt><dd>{SITE.perMonth}</dd></div>
+    </dl>
   </section>
 
   <div class="marquee" aria-hidden="true"><div class="marquee-track"><span>Ортопедические матрасы<i aria-hidden="true">✦</i></span><span>Любой размер на заказ<i aria-hidden="true">✦</i></span><span>Доставка день в день<i aria-hidden="true">✦</i></span><span>Алматы<i aria-hidden="true">✦</i></span><span>Астана<i aria-hidden="true">✦</i></span><span>Подушки в подарок<i aria-hidden="true">✦</i></span><span>Своя фабрика с 2018 года<i aria-hidden="true">✦</i></span><span>Ортопедические матрасы<i aria-hidden="true">✦</i></span><span>Любой размер на заказ<i aria-hidden="true">✦</i></span><span>Доставка день в день<i aria-hidden="true">✦</i></span><span>Алматы<i aria-hidden="true">✦</i></span><span>Астана<i aria-hidden="true">✦</i></span><span>Подушки в подарок<i aria-hidden="true">✦</i></span><span>Своя фабрика с 2018 года<i aria-hidden="true">✦</i></span></div></div>
@@ -147,25 +170,57 @@ const description = `Купить ортопедический матрас в �
 </Base>
 
 <style>
-  .hero { padding-top: clamp(28px, 6vw, 80px); padding-bottom: clamp(40px, 6vw, 80px); }
-  .hero-kicker { font-size: 16px; font-weight: 500; color: var(--ink-2); margin-bottom: 18px; }
-  .hero-h { font-size: clamp(2.9rem, 9.6vw, 9.4rem); letter-spacing: -0.055em; line-height: 0.9; max-width: 15ch; }
-  .hero-h2 { display: block; color: var(--ink-3); font-size: 0.5em; letter-spacing: -0.045em; line-height: 1; margin-top: 0.22em; max-width: 22ch; }
-  .hero-grid { display: grid; gap: 36px; margin-top: clamp(32px, 5vw, 64px); align-items: center; }
-  @media (min-width: 960px) { .hero-grid { grid-template-columns: 1.15fr 0.85fr; gap: 56px; } }
-  .hero-lead { font-size: clamp(19px, 1.8vw, 23px); line-height: 1.45; max-width: 34ch; letter-spacing: -0.01em; }
+  /* ===== Первый экран по референсу: небо, огромное слово, матрас на облаке ===== */
+  .sky {
+    --navy: #0b1446;
+    --ws: clamp(64px, 17vw, 270px);
+    position: relative; overflow: hidden; isolation: isolate;
+    margin: 0 clamp(8px, 1.4vw, 20px); border-radius: var(--r-lg);
+    min-height: clamp(600px, calc(100svh - 96px), 980px);
+    background: linear-gradient(180deg, #8fb2da 0%, #a9c7e7 38%, #c4dcf2 70%, #d9ebf8 100%);
+    color: var(--navy); text-align: center;
+    display: flex; flex-direction: column; align-items: center;
+    padding: clamp(18px, 2.4vw, 32px) 0 clamp(18px, 2.4vw, 30px);
+  }
+  .sky::before { content: ''; position: absolute; inset: 0; z-index: -1; background: radial-gradient(60% 45% at 50% 62%, rgba(255,255,255,.55), transparent 70%); }
+  .sky-top { padding: 0 16px; font-size: clamp(10px, 1vw, 13px); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--navy); opacity: .85; }
+  .sky-top span { margin: 0 .6em; opacity: .5; }
+  .sky-h { position: relative; width: 100%; margin-top: clamp(48px, 10vh, 130px); line-height: 1; letter-spacing: 0; font-weight: 400; }
+  .sky-pill { display: inline-block; position: relative; left: -10%; background: var(--navy); color: #fff; font-size: calc(var(--ws) * 0.11); font-weight: 500; text-transform: uppercase; letter-spacing: 0.01em; padding: .22em .5em; line-height: 1.1; margin-bottom: calc(var(--ws) * -0.04); }
+  .sky-word { position: relative; z-index: 1; display: block; font-size: var(--ws); font-weight: 800; letter-spacing: -0.055em; line-height: .9; color: var(--navy); white-space: nowrap; }
+  .sky-sub { position: absolute; right: 8%; bottom: calc(var(--ws) * -1.45); z-index: 3; text-align: left; font-size: clamp(15px, 1.7vw, 24px); line-height: 1.15; letter-spacing: -0.01em; }
+  .sky-sub em { font-style: italic; font-weight: 500; display: block; }
+  .sky-sub b { font-style: italic; font-weight: 800; display: block; }
+  .sky-art { position: relative; z-index: 2; width: min(980px, 72%); margin-top: calc(var(--ws) * -0.62); pointer-events: none; }
+  .sky-float { position: relative; padding-top: 8%; animation: floatY 7s ease-in-out infinite alternate; }
+  .cloud { display: block; width: 100%; height: auto; }
+  .cloud--back { position: relative; filter: drop-shadow(0 30px 40px rgba(40, 70, 120, .18)); }
+  .sky-matras { position: absolute; left: 50%; top: 0; width: 52%; translate: -52% 0; animation: floatY 5.5s ease-in-out infinite alternate-reverse; }
+  .sky-matras img { width: 100%; height: auto; filter: drop-shadow(0 22px 22px rgba(20, 40, 80, .28)); }
+  .cloud--front { position: absolute; left: 16%; width: 68%; top: 52%; opacity: .96; }
+  .sky-logo { position: relative; z-index: 3; margin-top: auto; text-decoration: none; color: var(--navy); font-size: clamp(22px, 2.2vw, 32px); letter-spacing: -0.045em; }
+  .sky-logo b { font-weight: 700; } .sky-logo i { font-style: normal; font-weight: 300; color: var(--pink); margin: 0 2px; } .sky-logo span { font-weight: 350; }
+  @keyframes floatY { from { transform: translate3d(0, -8px, 0); } to { transform: translate3d(0, 10px, 0); } }
+  @media (max-width: 760px) {
+    .sky { --ws: 17.2vw; min-height: 0; }
+    .sky-logo { margin-top: 30vw; }
+    .sky-top .long { display: none; }
+    .sky-h { margin-top: clamp(64px, 14vh, 130px); }
+    .sky-pill { left: -6%; font-size: 13px; }
+    .sky-art { width: 150%; margin-top: calc(var(--ws) * -0.5); }
+    .sky-sub { right: 6%; bottom: auto; top: calc(100% + 78vw); font-size: 16px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .sky-float, .sky-matras { animation: none; } }
+
+  .intro { display: grid; gap: 36px; padding-top: clamp(40px, 6vw, 80px); padding-bottom: clamp(20px, 3vw, 40px); align-items: end; }
+  @media (min-width: 1000px) { .intro { grid-template-columns: 1fr 1fr; gap: 64px; } }
+  .hero-lead { font-size: clamp(19px, 1.8vw, 23px); line-height: 1.45; max-width: 36ch; letter-spacing: -0.01em; }
   .hero-cta { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
-  .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; margin: 40px 0 0; border-top: 1.5px solid var(--ink); }
+  .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; margin: 0; border-top: 1.5px solid var(--ink); }
   @media (min-width: 600px) { .stats { grid-template-columns: repeat(4, 1fr); } }
   .stats div { display: flex; flex-direction: column-reverse; padding: 18px 12px 0 0; }
   .stats dd { margin: 0; white-space: nowrap; font-size: clamp(30px, 3.4vw, 46px); font-weight: 600; letter-spacing: -0.05em; line-height: 1; font-variant-numeric: tabular-nums; }
   .stats dt { font-size: 14px; color: var(--ink-2); margin-top: 6px; }
-  .hero-media { position: relative; margin: 0; }
-  .hero-media img { width: 100%; height: auto; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 60%; border-radius: var(--r-lg); }
-  .hero-play { position: absolute; left: 16px; bottom: 16px; display: inline-flex; align-items: center; gap: 12px; padding: 8px 18px 8px 8px; border-radius: var(--r-pill); background: #fff; text-decoration: none; font-weight: 600; font-size: 15px; transition: transform 160ms var(--ease-out); }
-  .hero-play span { width: 40px; height: 40px; border-radius: 50%; background: var(--pink); color: #fff; display: grid; place-items: center; }
-  .hero-play :global(svg) { width: 18px; height: 18px; margin-left: 2px; }
-  .hero-play:active { transform: scale(0.97); }
 
   .sec--dark { background: var(--panel); color: var(--on-panel); border-radius: var(--r-lg); margin-inline: clamp(8px, 1.4vw, 20px); }
   .sec--dark :global(.vid-d) { color: var(--on-panel-2); }
